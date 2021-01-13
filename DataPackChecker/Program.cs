@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using CommandLine.Text;
-using Shared;
+using DataPackChecker.Shared;
+using DataPackChecker.Shared.DataPack;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,6 +50,7 @@ namespace DataPackChecker {
         }
 
         private static void Run<T>(ParserResult<T> result, Options options) {
+            DataPack pack = DataPackParser.From(options.DataPackPath);
         }
     }
 }
