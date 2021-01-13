@@ -7,6 +7,7 @@ namespace DataPackChecker.Shared.DataPack {
         public string Space { get; }
         public string Path { get; }
         public string Name { get; }
+        public List<Command> Commands { get; set; }
 
         public Function(string space, string path, string name) {
             Space = space;

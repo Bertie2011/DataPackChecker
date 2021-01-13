@@ -39,7 +39,9 @@ namespace DataPackChecker {
             })) {
                 var match = FUNCTION_REGEX.Match(function, path.Length);
                 if (!match.Success) continue;
-                result.Add(new Function(match.Groups["namespace"].Value, match.Groups["path"].Value, match.Groups["name"].Value));
+                var functionObj = new Function(match.Groups["namespace"].Value, match.Groups["path"].Value, match.Groups["name"].Value);
+                result.Add(functionObj);
+                functionObj.Commands = File.ReadAllLines(function).Select(c => new Command(c)).ToList();
             }
             return result;
         }
