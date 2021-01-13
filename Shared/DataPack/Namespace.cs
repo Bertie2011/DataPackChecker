@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace DataPackChecker.Shared.DataPack {
-    public class Function {
-        public string Path { get; }
+    public class Namespace {
+        public List<Function> Functions { get; set; }
         public string Name { get; }
-        public List<Command> Commands { get; set; }
 
-        public Function(string path, string name) {
-            Path = path;
+        public Namespace(string name) {
             Name = name;
         }
     }
