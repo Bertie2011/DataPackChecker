@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace DataPackChecker.Shared.DataPack {
+namespace DataPackChecker.Shared.DataPack.Resources {
     public class Command {
         private static readonly char[] COMMAND_BRACKET_OPEN = new char[] { '[', '{' };
         private static readonly Dictionary<char, char> COMMAND_BRACKET_CLOSE = new Dictionary<char, char> {

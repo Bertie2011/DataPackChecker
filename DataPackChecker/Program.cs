@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using CommandLine.Text;
+using DataPackChecker.Parsers;
 using DataPackChecker.Shared;
 using DataPackChecker.Shared.DataPack;
 using System;
@@ -51,6 +52,8 @@ namespace DataPackChecker {
 
         private static void Run<T>(ParserResult<T> result, Options options) {
             DataPack pack = DataPackParser.From(options.DataPackPath);
+            //TODO make rules specify version
+            //TODO make Tag single class with type enum
         }
     }
 }
