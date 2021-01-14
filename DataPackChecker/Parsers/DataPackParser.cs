@@ -17,6 +17,7 @@ namespace DataPackChecker.Parsers {
 
             DataPack pack = new DataPack(ParseMcMeta(path));
             ParseNamespaces(path, pack);
+            Console.WriteLine(pack.Namespaces[0].Advancements[0].Content);
             return pack;
         }
 
@@ -34,14 +35,12 @@ namespace DataPackChecker.Parsers {
 
         // Root directory
         private static void ParseNamespaces(string path, DataPack pack) {
-            List<Namespace> result = new List<Namespace>();
             var dataPath = Path.Join(path, "data");
             foreach (var namespacePath in Directory.EnumerateDirectories(dataPath)) {
                 var namespaceObj = new Namespace(Path.GetFileName(namespacePath));
                 ParseResources(namespacePath, namespaceObj);
-                result.Add(namespaceObj);
+                pack.Namespaces.Add(namespaceObj);
             }
-            pack.Namespaces = result;
         }
 
         // Namespace directory
@@ -51,9 +50,19 @@ namespace DataPackChecker.Parsers {
                 ReturnSpecialDirectories = false
             })) {
                 var function = FunctionParser.TryParse(resource, path);
-                if (function != null) ns.Functions.Add(function);
+                if (function != null) { ns.Functions.Add(function); continue; }
                 var tag = TagParser.TryParse(resource, path);
-                if (tag != null) ns.Tags.Add(tag);
+                if (tag != null) { ns.Tags.Add(tag); continue; }
+                var advancement = AdvancementParser.TryParse(resource, path);
+                if (advancement != null) { ns.Advancements.Add(advancement); continue; }
+                var lootTable = LootTableParser.TryParse(resource, path);
+                if (lootTable != null) { ns.LootTables.Add(lootTable); continue; }
+                var predicate = PredicateParser.TryParse(resource, path);
+                if (predicate != null) { ns.Predicates.Add(predicate); continue; }
+                var recipe = RecipeParser.TryParse(resource, path);
+                if (recipe != null) { ns.Recipes.Add(recipe); continue; }
+                var structure = StructureParser.TryParse(resource, path);
+                if (structure != null) { ns.Structures.Add(structure); continue; }
             }
         }
     }

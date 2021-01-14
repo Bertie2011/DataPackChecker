@@ -53,6 +53,7 @@ namespace DataPackChecker {
         private static void Run<T>(ParserResult<T> result, Options options) {
             DataPack pack = DataPackParser.From(options.DataPackPath);
             //TODO make rules specify version
+            //TODO make rules have test method
             //TODO make Tag single class with type enum
         }
     }
