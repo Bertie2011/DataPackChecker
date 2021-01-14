@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
     static class StructureParser {
-        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]structures([\\/](?<path>.+?))?[\\/](?<name>\w+)\.nbt$");
+        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]structures([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.nbt$");
         static public Structure TryParse(string absPath, string nsPath) {
             var match = NAMESPACE_PATH_REGEX.Match(absPath, nsPath.Length);
             if (!match.Success) return null;

@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
     static class TagParser {
-        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]tags[\\/](?<type>\w+)([\\/](?<path>.+?))?[\\/](?<name>\w+)\.json$");
+        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]tags[\\/](?<type>[^\\/]+)([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.json$");
         static public Tag TryParse(string absPath, string nsPath) {
             var match = NAMESPACE_PATH_REGEX.Match(absPath, nsPath.Length);
             if (!match.Success) return null;

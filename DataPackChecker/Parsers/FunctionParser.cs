@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
     static public class FunctionParser {
-        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]functions([\\/](?<path>.+?))?[\\/](?<name>\w+)\.mcfunction$");
+        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]functions([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.mcfunction$");
         static public Function TryParse(string absPath, string nsPath) {
             var match = NAMESPACE_PATH_REGEX.Match(absPath, nsPath.Length);
             if (!match.Success) return null;

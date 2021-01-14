@@ -51,7 +51,9 @@ namespace DataPackChecker {
         }
 
         private static void Run<T>(ParserResult<T> result, Options options) {
+            Console.WriteLine("Reading Data Pack...");
             DataPack pack = DataPackParser.From(options.DataPackPath);
+            Console.WriteLine("Finished Reading Data Pack!");
             //TODO make rules specify version
             //TODO make rules have test method
             //TODO make Tag single class with type enum

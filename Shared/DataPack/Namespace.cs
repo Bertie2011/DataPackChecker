@@ -12,6 +12,8 @@ namespace DataPackChecker.Shared.DataPack {
         public List<Predicate> Predicates { get; } = new List<Predicate>();
         public List<Recipe> Recipes { get; } = new List<Recipe>();
         public List<Structure> Structures { get; } = new List<Structure>();
+        public DimensionData DimensionData { get; } = new DimensionData();
+        public WorldGenData WorldGenData { get; } = new WorldGenData();
         public string Name { get; }
 
         public Namespace(string name) {

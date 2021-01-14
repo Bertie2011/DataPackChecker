@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
     static class AdvancementParser {
-        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]advancements([\\/](?<path>.+?))?[\\/](?<name>\w+)\.json$");
+        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]advancements([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.json$");
         static public Advancement TryParse(string absPath, string nsPath) {
             var match = NAMESPACE_PATH_REGEX.Match(absPath, nsPath.Length);
             if (!match.Success) return null;

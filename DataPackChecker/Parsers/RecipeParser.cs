@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
     static class RecipeParser {
-        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]recipes([\\/](?<path>.+?))?[\\/](?<name>\w+)\.json$");
+        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]recipes([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.json$");
         static public Recipe TryParse(string absPath, string nsPath) {
             var match = NAMESPACE_PATH_REGEX.Match(absPath, nsPath.Length);
             if (!match.Success) return null;

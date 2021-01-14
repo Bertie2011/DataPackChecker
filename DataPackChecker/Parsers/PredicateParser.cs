@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
     static class PredicateParser {
-        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]predicates([\\/](?<path>.+?))?[\\/](?<name>\w+)\.json$");
+        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]predicates([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.json$");
         static public Predicate TryParse(string absPath, string nsPath) {
             var match = NAMESPACE_PATH_REGEX.Match(absPath, nsPath.Length);
             if (!match.Success) return null;
