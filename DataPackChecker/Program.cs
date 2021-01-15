@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using CommandLine.Text;
 using DataPackChecker.Parsers;
+using DataPackChecker.Rules;
 using DataPackChecker.Shared;
 using DataPackChecker.Shared.DataPack;
 using System;
@@ -19,14 +20,6 @@ namespace DataPackChecker {
             var parserResult = parser.ParseArguments<Options>(args);
             parserResult.WithParsed<Options>(options => Run(parserResult, options))
               .WithNotParsed(errs => DisplayErrors(parserResult, errs));
-
-            //var ass = Assembly.LoadFrom("./Test.dll");
-            //foreach (var type in ass.GetTypes()) {
-            //    if (typeof(MyInterface).IsAssignableFrom(type)) {
-            //        MyInterface obj = (MyInterface) type.GetConstructor(new Type[0]).Invoke(new object[0]);
-            //        obj.DoSomething();
-            //    }
-            //}
         }
 
         static void DisplayErrors<T>(ParserResult<T> result, IEnumerable<Error> errs) {
@@ -51,9 +44,25 @@ namespace DataPackChecker {
         }
 
         private static void Run<T>(ParserResult<T> result, Options options) {
-            Console.WriteLine("Reading Data Pack...");
-            DataPack pack = DataPackParser.From(options.DataPackPath);
-            Console.WriteLine("Finished Reading Data Pack!");
+            var (rules, errors) = RuleRegistry.FromDirectory(Path.Join(".", "Rules"));
+            var ruleInfo = new RuleInfoPrinter(rules);
+
+            if (errors.Count > 0) {
+                ConsoleHelper.WriteLine("The following errors occurred while trying to read the rule files (.dll):\n", ConsoleColor.Yellow);
+                foreach (var error in errors) ConsoleHelper.WriteError(error, ConsoleColor.Yellow);
+            }
+
+            if (!string.IsNullOrWhiteSpace(options.DataPackPath)) {
+                ConsoleHelper.WriteLine("Reading Data Pack...");
+                DataPack pack = DataPackParser.From(options.DataPackPath);
+                ConsoleHelper.WriteLine("Finished Reading Data Pack!");
+            } else if (options.RuleList) {
+                ruleInfo.PrintList();
+            } else if (!string.IsNullOrWhiteSpace(options.RuleInfo)) {
+                ruleInfo.PrintOne(options.RuleInfo);
+            } else {
+                DisplayHelp(result);
+            }
             //TODO make rules specify version
             //TODO make rules have test method
             //TODO make Tag single class with type enum
