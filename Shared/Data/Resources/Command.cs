@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace DataPackChecker.Shared.DataPack.Resources {
+namespace DataPackChecker.Shared.Data.Resources {
     public class Command {
         private static readonly char[] COMMAND_BRACKET_OPEN = new char[] { '[', '{' };
         private static readonly Dictionary<char, char> COMMAND_BRACKET_CLOSE = new Dictionary<char, char> {
@@ -16,13 +16,15 @@ namespace DataPackChecker.Shared.DataPack.Resources {
         }
 
         public Type ContentType { get; }
+        public int Line { get; }
         public string Raw { get; }
         public string CommandKey { get; }
 
         public List<string> Arguments { get; } = new List<string>();
 
-        public Command(string data) {
+        public Command(int line, string data) {
             Raw = data;
+            Line = line;
             if (string.IsNullOrWhiteSpace(data)) {
                 ContentType = Type.Whitespace;
             } else if (data.StartsWith("#")) {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace DataPackChecker.Shared.DataPack {
+namespace DataPackChecker.Shared.Data {
     public class DataPack {
         public JsonElement Meta { get; set; }
         public List<Namespace> Namespaces { get; } = new List<Namespace>();

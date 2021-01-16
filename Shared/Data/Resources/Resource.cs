@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataPackChecker.Shared.DataPack.Resources {
+namespace DataPackChecker.Shared.Data.Resources {
     public class Resource {
         public string Path { get; }
         public string Name { get; }

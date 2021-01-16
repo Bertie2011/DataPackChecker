@@ -1,4 +1,4 @@
-﻿using DataPackChecker.Shared.DataPack.Resources.WorldGen;
+﻿using DataPackChecker.Shared.Data.Resources.WorldGen;
 using System;
 using System.Collections.Generic;
 using System.IO;

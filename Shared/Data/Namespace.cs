@@ -1,9 +1,9 @@
-﻿using DataPackChecker.Shared.DataPack.Resources;
+﻿using DataPackChecker.Shared.Data.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataPackChecker.Shared.DataPack {
+namespace DataPackChecker.Shared.Data {
     public class Namespace {
         public List<Function> Functions { get; } = new List<Function>();
         public List<Tag> Tags { get; } = new List<Tag>();

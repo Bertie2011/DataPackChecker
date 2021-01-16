@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataPackChecker.Shared.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
@@ -10,5 +11,7 @@ namespace DataPackChecker.Shared {
         abstract public string GoodExample { get; }
         abstract public string BadExample { get; }
         virtual public string ConfigExample { get; }
+
+        abstract public void Run(DataPack pack, JsonElement config, Output output);
     }
 }

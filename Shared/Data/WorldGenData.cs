@@ -1,9 +1,9 @@
-﻿using DataPackChecker.Shared.DataPack.Resources.WorldGen;
+﻿using DataPackChecker.Shared.Data.Resources.WorldGen;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataPackChecker.Shared.DataPack {
+namespace DataPackChecker.Shared.Data {
     public class WorldGenData {
         public List<Biome> Biomes { get; } = new List<Biome>();
         public List<ConfiguredCarver> ConfiguredCarvers { get; } = new List<ConfiguredCarver>();

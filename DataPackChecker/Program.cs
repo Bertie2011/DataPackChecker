@@ -1,9 +1,10 @@
 ﻿using CommandLine;
 using CommandLine.Text;
+using DataPackChecker.Configuration;
 using DataPackChecker.Parsers;
 using DataPackChecker.Rules;
 using DataPackChecker.Shared;
-using DataPackChecker.Shared.DataPack;
+using DataPackChecker.Shared.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,26 +47,25 @@ namespace DataPackChecker {
         private static void Run<T>(ParserResult<T> result, Options options) {
             var (rules, errors) = RuleRegistry.FromDirectory(Path.Join(".", "Rules"));
             var ruleInfo = new RuleInfoPrinter(rules);
+            var checker = new Checker(rules);
 
             if (errors.Count > 0) {
-                ConsoleHelper.WriteLine("The following errors occurred while trying to read the rule files (.dll):\n", ConsoleColor.Yellow);
-                foreach (var error in errors) ConsoleHelper.WriteError(error, ConsoleColor.Yellow);
+                ConsoleHelper.WriteLine("The following errors occurred while trying to read the rule files (.dll):\n", ConsoleColor.Red);
+                foreach (var error in errors) ConsoleHelper.WriteError(error);
+                return;
             }
 
-            if (!string.IsNullOrWhiteSpace(options.DataPackPath)) {
-                ConsoleHelper.WriteLine("Reading Data Pack...");
-                DataPack pack = DataPackParser.From(options.DataPackPath);
-                ConsoleHelper.WriteLine("Finished Reading Data Pack!");
+            if (!string.IsNullOrWhiteSpace(options.DataPackPath) && !string.IsNullOrWhiteSpace(options.ConfigPath)) {
+                checker.Check(options.DataPackPath, options.ConfigPath);
             } else if (options.RuleList) {
                 ruleInfo.PrintList();
             } else if (!string.IsNullOrWhiteSpace(options.RuleInfo)) {
                 ruleInfo.PrintOne(options.RuleInfo);
+            } else if (options.ConfigHelp) {
+                ConsoleHelper.WriteLine(Config.ExampleContents);
             } else {
                 DisplayHelp(result);
             }
-            //TODO make rules specify version
-            //TODO make rules have test method
-            //TODO make Tag single class with type enum
         }
     }
 }

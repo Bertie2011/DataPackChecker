@@ -1,4 +1,4 @@
-﻿using DataPackChecker.Shared.DataPack.Resources.Dimensions;
+﻿using DataPackChecker.Shared.Data.Resources.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.IO;

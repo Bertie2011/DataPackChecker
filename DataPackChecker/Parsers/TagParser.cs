@@ -1,4 +1,4 @@
-﻿using DataPackChecker.Shared.DataPack.Resources;
+﻿using DataPackChecker.Shared.Data.Resources;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,4 +1,4 @@
-﻿using DataPackChecker.Shared.DataPack;
+﻿using DataPackChecker.Shared.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DataPackChecker.Shared.DataPack.Resources;
+using DataPackChecker.Shared.Data.Resources;
 using DataPackChecker.Parsers.Dimensions;
 using DataPackChecker.Parsers.WorldGen;
 
