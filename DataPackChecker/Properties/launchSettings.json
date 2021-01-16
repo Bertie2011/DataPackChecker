@@ -1,8 +1,7 @@
 {
   "profiles": {
     "DataPackChecker": {
-      "commandName": "Project",
-      "commandLineArgs": "-d \".\\Advent Calendar 2020\" -c \".\\config.json\""
+      "commandName": "Project"
     }
   }
 }
