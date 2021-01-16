@@ -57,7 +57,7 @@ namespace DataPackChecker.Shared {
         /// {resource type} {ns.Name}:{r.Path}/{r.Name}
         /// </summary>
         public void Error(Namespace ns, Resource r, string message) {
-            Errors.Add(($"{r.GetType().Name} {ns.Name}:{r.Path}/{r.Name}", message));
+            Errors.Add(($"{GetResourceIdentifier(ns, r)}", message));
         }
 
         /// <summary>
@@ -65,15 +65,7 @@ namespace DataPackChecker.Shared {
         /// {type} Tag {ns.Name}:{t.Path}/{t.Name} - {item}
         /// </summary>
         public void Error(Namespace ns, Tag t, string item, string message) {
-            Errors.Add(($"{Enum.GetName(typeof(Tag.Type), t.ContentType)} Tag {ns.Name}:{t.Path}/{t.Name} - {item}", message));
-        }
-
-        /// <summary>
-        /// Output header format:<br/>
-        /// {type} Tag {ns.Name}:{t.Path}/{t.Name}
-        /// </summary>
-        public void Error(Namespace ns, Tag t, string message) {
-            Errors.Add(($"{Enum.GetName(typeof(Tag.Type), t.ContentType)} Tag {ns.Name}:{t.Path}/{t.Name}", message));
+            Errors.Add(($"{GetResourceIdentifier(ns, t)} - {item}", message));
         }
 
         /// <summary>
@@ -82,7 +74,7 @@ namespace DataPackChecker.Shared {
         /// </summary>
         public void Error(Namespace ns, JsonResource r, JsonElement element, string message) {
             var json = JsonSerializer.Serialize(element, JsonOptions);
-            Errors.Add(($"{r.GetType().Name} {ns.Name}:{r.Path}/{r.Name} - {json}", message));
+            Errors.Add(($"{GetResourceIdentifier(ns, r)} - {json}", message));
         }
 
         /// <summary>
@@ -106,7 +98,22 @@ namespace DataPackChecker.Shared {
         /// Function {ns.Name}:{f.Path}/{f.Name} - Line {c.Line}: {c.Raw}...
         /// </summary>
         public void Error(Namespace ns, Function f, Command c, string message) {
-            Errors.Add(($"Function {ns.Name}:{f.Path}/{f.Name} - Line {c.Line}: {c.Raw.Substring(0, Math.Min(30, c.Raw.Length))}...", message));
+            Errors.Add(($"{GetResourceIdentifier(ns, f)} - Line {c.Line}: {c.Raw.Substring(0, Math.Min(30, c.Raw.Length))}...", message));
+        }
+
+        public string GetResourcePath(Namespace ns, Resource r) {
+            if (string.IsNullOrWhiteSpace(r.Path)) {
+                return $"{ns.Name}:{r.Name}";
+            } else {
+                return $"{ns.Name}:{r.Path}/{r.Name}";
+            }
+        }
+
+        /// <summary>
+        /// Returns: {r.GetTypeString()} {GetResourcePath(ns, r)}
+        /// </summary>
+        public string GetResourceIdentifier(Namespace ns, Resource r) {
+            return $"{r.GetTypeString()} {GetResourcePath(ns, r)}";
         }
 
         public void Print() {

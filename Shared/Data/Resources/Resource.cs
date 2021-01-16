@@ -11,5 +11,9 @@ namespace DataPackChecker.Shared.Data.Resources {
             Path = path;
             Name = name;
         }
+
+        virtual public string GetTypeString() {
+            return GetType().Name;
+        }
     }
 }

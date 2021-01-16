@@ -42,6 +42,8 @@ namespace DataPackChecker.Rules {
             if (r.ConfigExample != null) {
                 ConsoleHelper.WriteLine("\nConfiguration Example:");
                 ConsoleHelper.WriteLine(r.ConfigExample, ConsoleColor.Gray);
+            } else {
+                ConsoleHelper.WriteLine("\nThis rule does not require configuration.");
             }
         }
     }
