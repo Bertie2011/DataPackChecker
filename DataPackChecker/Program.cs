@@ -66,6 +66,11 @@ namespace DataPackChecker {
             } else {
                 DisplayHelp(result);
             }
+
+            if (options.KeepOpen) {
+                ConsoleHelper.WriteLine("\nPress any key to exit...", ConsoleColor.Gray);
+                Console.ReadKey();
+            }
         }
     }
 }

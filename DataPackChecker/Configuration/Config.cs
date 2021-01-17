@@ -13,6 +13,9 @@ namespace DataPackChecker.Configuration {
             ""first"": ""If a rule has no config, you can omit the config key."",
             ""second"": ""The JSON structure is rule specific, use the rule info option for more information.""
         }
+    },
+    {
+        ""..."": ""...""
     }
 ]";
 
