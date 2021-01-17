@@ -48,6 +48,9 @@ xcopy "$(TargetDir)\$(TargetName).pdb" "<path-to-Data-Pack-Checker-exe>\Rules" /
 > Note: The $(var) syntax is supported by Visual Studio and will work as-is. Do not replace.
 9. Create a data pack and a config file to test your rule.
 10. Go to `Project` > `Properties` > `Debug`, select `Launch: Executable` and use the Data Pack Checker executable. Then select a working directory, the arguments in the field above are relative to that and might look like this:
-    > -o -d "datapack" -c "config.json"
-11. Simply publish the .dll files in the `bin/Release/netcoreapp3.1` folders of the projects after building on Release.
-12. To update to a new version of Data Pack Checker, simply overwrite the Shared.dll file with a new version, fix any warnings/errors and re-publish.
+```Batchfile
+-o -d "datapack" -c "config.json"
+```
+> The Debug and Build Events settings might be picked up by version control, but can contain absolute paths likely exposing your PC username. You might not want to commit those changes.
+12. Simply publish the .dll files in the `bin/Release/netcoreapp3.1` folders of the projects after building on Release.
+13. To update to a new version of Data Pack Checker, simply overwrite the Shared.dll file with a new version, fix any warnings/errors and re-publish.
