@@ -53,3 +53,5 @@ DataPackChecker.exe -d "datapack" -c "config.json"
 XCOPY "<path-to-solution>/<project>/bin/Release/netcoreapp3.1/<the .dll file>" Rules /Y /D /I
 :: Repeat for each project, the second parameter (Rules) is the destination folder and can be a quoted path too.
 ```
+11. Simply publish the .dll files in the `bin/Release/netcoreapp3.1` folders of the projects.
+12. To update to a new version of Data Pack Checker, simply overwrite the Shared.dll file with a new version, fix any warnings/errors and re-publish.
