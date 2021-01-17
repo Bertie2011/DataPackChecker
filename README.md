@@ -36,22 +36,18 @@ In order to make new rules follow these steps:
 1. Download the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases)
 2. Create a new .NET Core Class Library project (and solution) in Visual Studio.
 3. Each project will end up being a .dll file, so use multiple projects to avoid creating one big .dll file. That way users can pick their rules a little more precise and not waste time on loading rules they don't want.
-4. Download the shared.dll file from this repo and place it in the solution folder.
+4. Download the Shared.dll file from this repo and place it in the solution folder.
 5. Right click `Project` > `Add` > `Reference...` > `Browse...` and select the .dll file. A relative path is saved, so collaboration isn't a problem.
 6. Create classes subclassing from `CheckerRule`. Besides required overriding of abstract members, there are also virtual members you might want to explore and override.
    > Note that each rule is executed in its own thread, so your code must be thread-safe. As a rule of thumb, your rule should be stateless. This means that your rule does not save any data and one run cannot be influenced by another run
-7. Enable the Build toolbar in `Tools` > `Customize...` if you haven't already.
-8. Build on Release.
+7. Go to `Project` > `Properties` > `Build Events` > `Post-build event command line`, enter the following command and make it only run if project output is changed:
+```Batchfile
+xcopy "$(TargetDir)\$(TargetName).dll" "<path-to-Data-Pack-Checker-exe>\Rules" /Y /D /I
+xcopy "$(TargetDir)\$(TargetName).pdb" "<path-to-Data-Pack-Checker-exe>\Rules" /Y /D /I /C
+```
+> Note: The $(var) syntax is supported by Visual Studio and will work as-is. Do not replace.
 9. Create a data pack and a config file to test your rule.
-10. Create a couple scripts in the Data Pack Checker folder to make running and copying the created .dll file easier. For Windows, the scripts can look like:
-```Batchfile
-@ECHO OFF
-DataPackChecker.exe -d "datapack" -c "config.json"
-```
-```Batchfile
-@ECHO OFF
-XCOPY "<path-to-solution>/<project>/bin/Release/netcoreapp3.1/<the .dll file>" Rules /Y /D /I
-:: Repeat for each project, the second parameter (Rules) is the destination folder and can be a quoted path too.
-```
-11. Simply publish the .dll files in the `bin/Release/netcoreapp3.1` folders of the projects.
+10. Go to `Project` > `Properties` > `Debug`, select `Launch: Executable` and use the Data Pack Checker executable. Then select a working directory, the arguments in the field above are relative to that and might look like this:
+    > -o -d "datapack" -c "config.json"
+11. Simply publish the .dll files in the `bin/Release/netcoreapp3.1` folders of the projects after building on Release.
 12. To update to a new version of Data Pack Checker, simply overwrite the Shared.dll file with a new version, fix any warnings/errors and re-publish.
