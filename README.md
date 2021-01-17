@@ -1,0 +1,55 @@
+# Data Pack Checker
+This is a dynamic rule-based style checker CLI for Minecraft Data Packs.
+
+### For Data Pack Creators
+1. Download the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases)
+2. Download .dll files, which contain the actual rules. Note that a rule can do whatever it wants to your system, so do not download rule files of untrusted sources.
+   > Try the [rules repository](https://github.com/Bertie2011/DataPackCheckerRules) by the author of Data Pack Checker for recommended basic rules.
+3. Skip to the last step if you got given a config file.
+4. Read up on which rules are available by opening up a Console/Terminal window and running the software with the `--rule-list` (`-l`) and `--rule-info <identifier>` (`-i`) options.
+5. Create a config file (JSON), looking like this:
+```JSON
+[
+    {
+        "rule": "com.namespace.RuleClass (= identifier)",
+        "config": {
+            "first": "If a rule has no config, you can omit the config key.",
+            "second": "The JSON structure is rule specific, use the rule info option for more information."
+        }
+    },
+    {
+        "...": "..."
+    }
+]
+```
+6. Run the checker with `--data-pack "<path to pack>" --config "<path to config>"` (or using `-d` and `-c` respectively) 
+
+### For Communities, Moderators and Event Organizers
+1. Make a selection of .dll files that contain the required rules.
+   > Try the [rules repository](https://github.com/Bertie2011/DataPackCheckerRules) by the author of Data Pack Checker for recommended basic rules.
+2. Make a configuration file (see above and `--config-help`) that lists the rules and their configurations.
+3. Publish a list of .dll files and the configuration file for members/participants to check their data packs with.
+4. Since there is no way to trust creators in relaying the results truthfully, you'll have to check data packs yourself too.
+
+### For Developers
+In order to make new rules follow these steps:
+1. Download the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases)
+2. Create a new .NET Core Class Library project (and solution) in Visual Studio.
+3. Each project will end up being a .dll file, so use multiple projects to avoid creating one big .dll file. That way users can pick their rules a little more precise and not waste time on loading rules they don't want.
+4. Download the shared.dll file from this repo and place it in the solution folder.
+5. Right click `Project` > `Add` > `Reference...` > `Browse...` and select the .dll file. A relative path is saved, so collaboration isn't a problem.
+6. Create classes subclassing from `CheckerRule`. Besides required overriding of abstract members, there are also virtual members you might want to explore and override.
+   > Note that each rule is executed in its own thread, so your code must be thread-safe. As a rule of thumb, your rule should be stateless. This means that your rule does not save any data and one run cannot be influenced by another run
+7. Enable the Build toolbar in `Tools` > `Customize...` if you haven't already.
+8. Build on Release.
+9. Create a data pack and a config file to test your rule.
+10. Create a couple scripts in the Data Pack Checker folder to make running and copying the created .dll file easier. For Windows, the scripts can look like:
+```Batchfile
+@ECHO OFF
+DataPackChecker.exe -d "datapack" -c "config.json"
+```
+```Batchfile
+@ECHO OFF
+XCOPY "<path-to-solution>/<project>/bin/Release/netcoreapp3.1/<the .dll file>" Rules /Y /D /I
+:: Repeat for each project, the second parameter (Rules) is the destination folder and can be a quoted path too.
+```
