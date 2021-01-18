@@ -12,6 +12,6 @@ namespace DataPackChecker.Shared {
         abstract public string BadExample { get; }
         virtual public string ConfigExample { get; }
 
-        abstract public void Run(DataPack pack, JsonElement config, Output output);
+        abstract public void Run(DataPack pack, JsonElement? config, Output output);
     }
 }

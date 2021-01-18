@@ -26,18 +26,13 @@ namespace DataPackChecker.Rules {
                 return;
             }
             ConsoleHelper.WriteLine("Identifier:");
-            ConsoleHelper.Write("\t");
             ConsoleHelper.WriteLine(r.GetType().FullName, ConsoleColor.Gray);
             ConsoleHelper.WriteLine("\nTitle:");
-            ConsoleHelper.Write("\t");
             ConsoleHelper.WriteLine(r.Title, ConsoleColor.Gray);
             ConsoleHelper.WriteLine("\nDescription:");
-            ConsoleHelper.Write("\t");
             ConsoleHelper.WriteLine(r.Description, ConsoleColor.Gray);
             ConsoleHelper.WriteLine("\nExamples:");
-            ConsoleHelper.Write("\t");
             ConsoleHelper.WriteLine(r.GoodExample, ConsoleColor.Green);
-            ConsoleHelper.Write("\t");
             ConsoleHelper.WriteLine(r.BadExample, ConsoleColor.Red);
             if (r.ConfigExample != null) {
                 ConsoleHelper.WriteLine("\nConfiguration Example:");
