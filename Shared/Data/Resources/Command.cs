@@ -133,5 +133,9 @@ namespace DataPackChecker.Shared.Data.Resources {
                 } else return true;
             }
         }
+
+        public override string ToString() {
+            return Raw;
+        }
     }
 }

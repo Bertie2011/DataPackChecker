@@ -19,10 +19,21 @@ namespace DataPackChecker.Shared.Data.Resources {
         }
 
         public List<Function> References { get; } = new List<Function>();
+
+        /// <summary>
+        /// Return all uniquely referenced functions (recursive), including this one.
+        /// </summary>
         public List<Function> ReferencesFlat {
             get {
-                //TODO FIX REFERENCES FLAT
-                return null;
+                HashSet<Function> result = new HashSet<Function>();
+                Queue<Function> queue = new Queue<Function>();
+                queue.Enqueue(this);
+                while (queue.Count > 0) {
+                    var item = queue.Dequeue();
+                    result.Add(item);
+                    foreach (Function f in item.References) if (!result.Contains(f)) queue.Enqueue(f);
+                }
+                return result.ToList();
             }
         }
 
