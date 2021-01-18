@@ -16,52 +16,121 @@ namespace DataPackChecker.Shared.Data.Resources {
         }
 
         public Type ContentType { get; }
-        public int Line { get; }
-        public string Raw { get; }
-        public string CommandKey { get; }
 
+        /// <summary>
+        /// The line number of this command. The first line has line number 1.
+        /// </summary>
+        public int Line { get; }
+
+        /// <summary>
+        /// The raw command string.
+        /// The string ends when a new command is started (e.g. after "run" in /execute) and everything else will be inside NextCommand.
+        /// </summary>
+        public string Raw { get; set; }
+
+        /// <summary>
+        /// The first "word" of the command.
+        /// </summary>
+        public string CommandKey { get; set; }
+
+        /// <summary>
+        /// All space separated arguments of the command, excluding the CommandKey
+        /// </summary>
         public List<string> Arguments { get; } = new List<string>();
 
-        public Command(int line, string data) {
-            Raw = data;
-            Line = line;
-            if (string.IsNullOrWhiteSpace(data)) {
-                ContentType = Type.Whitespace;
-            } else if (data.StartsWith("#")) {
-                ContentType = Type.Comment;
-            } else {
-                ContentType = Type.Command;
-                int split = data.IndexOf(' ');
-                CommandKey = data.Substring(0, split == -1 ? data.Length : split);
-                if (split == -1) return;
+        /// <summary>
+        /// Some commands can have another command embedded (like /execute).
+        /// A second command embedded in this command will be placed in this variable.
+        /// Note that the next command might also have a next command of its own,
+        /// you might want to use the Flat property instead.
+        /// </summary>
+        public Command NextCommand { get; set; }
 
-                StringBuilder arg = new StringBuilder();
-                Stack<char> brackets = new Stack<char>();
-                char? quote = null;
-                bool escape = false;
-                foreach (char c in data.Substring(split + 1)) {
-                    if (c == ' ' && brackets.Count == 0 && quote == null && !escape) {
-                        Arguments.Add(arg.ToString());
-                        arg.Clear();
+        /// <summary>
+        /// Returns this command and all next commands (recursive).
+        /// </summary>
+        public List<Command> Flat {
+            get {
+                var current = this;
+                List<Command> result = new List<Command>();
+                while (current != null) {
+                    result.Add(current);
+                    current = current.NextCommand;
+                }
+                return result;
+            }
+        }
+
+        public Command(int line, string data, int startIndex = 0) {
+            Line = line;
+            ContentType = DetermineType(data);
+            if (ContentType == Type.Command) {
+                ParseCommand(data, startIndex);
+            } else if (ContentType == Type.Comment) {
+                Raw = data.Substring(Math.Max(1, startIndex)).Trim();
+            }
+        }
+
+        private Type DetermineType(string command) {
+            if (string.IsNullOrWhiteSpace(command)) {
+                return Type.Whitespace;
+            } else if (command.StartsWith("#")) {
+                return Type.Comment;
+            } else {
+                return Type.Command;
+            }
+        }
+
+        private void ParseCommand(string data, int startIndex) {
+            StringBuilder raw = new StringBuilder();
+            StringBuilder arg = new StringBuilder();
+            Stack<char> brackets = new Stack<char>();
+            char? quote = null;
+            bool escape = false;
+            for (int i = startIndex; i < data.Length; i++) {
+                char c = data[i];
+
+                // Either process the created argument or record the next character.
+                if (c == ' ' && brackets.Count == 0 && quote == null && !escape) {
+                    bool shouldContinue = ProcessArgument(data, i + 1, arg.ToString());
+                    arg.Clear();
+                    if (shouldContinue) {
+                        raw.Append(c);
                         continue;
-                    } else {
-                        arg.Append(c);
-                    }
-                    
-                    if (escape) {
-                        escape = false;
-                    } else if (c == '\\') {
-                        escape = true;
-                    } else if (quote == null && COMMAND_BRACKET_OPEN.Any(b => b == c)) {
-                        brackets.Push(c);
-                    } else if (quote == null && brackets.Count != 0 && c == COMMAND_BRACKET_CLOSE[brackets.Peek()]) {
-                        brackets.Pop();
-                    } else if (COMMAND_QUOTES.Any(q => q == c)) {
-                        quote = quote == null ? c : (char?)null;
-                    }
+                    } else break;
+                } else {
+                    raw.Append(c);
+                    arg.Append(c);
                 }
 
-                if (arg.Length > 0) Arguments.Add(arg.ToString());
+                // Change modifiers
+                if (escape) {
+                    escape = false;
+                } else if (c == '\\') {
+                    escape = true;
+                } else if (quote == null && COMMAND_BRACKET_OPEN.Any(b => b == c)) {
+                    brackets.Push(c);
+                } else if (quote == null && brackets.Count != 0 && c == COMMAND_BRACKET_CLOSE[brackets.Peek()]) {
+                    brackets.Pop();
+                } else if (COMMAND_QUOTES.Any(q => q == c)) {
+                    quote = quote == null ? c : (char?)null;
+                }
+            }
+
+            if (arg.Length > 0) Arguments.Add(arg.ToString());
+            Raw = raw.ToString();
+        }
+
+        private bool ProcessArgument(string data, int nextIndex, string argument) {
+            if (CommandKey == null) {
+                CommandKey = argument;
+                return true;
+            } else {
+                Arguments.Add(argument);
+                if (CommandKey == "execute" && argument == "run" && nextIndex < data.Length) {
+                    NextCommand = new Command(Line, data, nextIndex);
+                    return false;
+                } else return true;
             }
         }
     }

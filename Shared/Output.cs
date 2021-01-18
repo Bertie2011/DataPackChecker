@@ -102,18 +102,14 @@ namespace DataPackChecker.Shared {
         }
 
         public string GetResourcePath(Namespace ns, Resource r) {
-            if (string.IsNullOrWhiteSpace(r.Path)) {
-                return $"{ns.Name}:{r.Name}";
-            } else {
-                return $"{ns.Name}:{r.Path}/{r.Name}";
-            }
+            return ns.Name + ':' + r.FullPath;
         }
 
         /// <summary>
         /// Returns: {r.GetTypeString()} {GetResourcePath(ns, r)}
         /// </summary>
         public string GetResourceIdentifier(Namespace ns, Resource r) {
-            return $"{r.GetTypeString()} {GetResourcePath(ns, r)}";
+            return $"{r.TypeString} {GetResourcePath(ns, r)}";
         }
 
         public void Print() {
