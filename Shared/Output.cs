@@ -90,7 +90,7 @@ namespace DataPackChecker.Shared {
                 indent++;
                 e = e.InnerException;
             }
-            Errors.Add(($"Exception while running", msg.ToString()));
+            Errors.Add(($"Error while running", msg.ToString()));
         }
 
         /// <summary>
@@ -99,6 +99,14 @@ namespace DataPackChecker.Shared {
         /// </summary>
         public void Error(Namespace ns, Function f, Command c, string message) {
             Errors.Add(($"{GetResourceIdentifier(ns, f)} - Line {c.Line}: {c.Raw.Substring(0, Math.Min(30, c.Raw.Length))}...", message));
+        }
+
+        /// <summary>
+        /// Outputs an error indicating that the configuration is invalid.
+        /// </summary>
+        /// <typeparam name="T">The rule that is calling this method.</typeparam>
+        public void InvalidConfiguration<T>() {
+            Errors.Add(("Configuration", $"The configuration is invalid. Use -i {typeof(T).FullName} for more information."));
         }
 
         public string GetResourcePath(Namespace ns, Resource r) {
