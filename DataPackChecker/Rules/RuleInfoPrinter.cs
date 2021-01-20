@@ -32,13 +32,22 @@ namespace DataPackChecker.Rules {
             ConsoleHelper.WriteLine("\nDescription:");
             ConsoleHelper.WriteLine(r.Description, ConsoleColor.Gray);
             ConsoleHelper.WriteLine("\nExamples:");
-            ConsoleHelper.WriteLine(r.GoodExample, ConsoleColor.Green);
-            ConsoleHelper.WriteLine(r.BadExample, ConsoleColor.Red);
-            if (r.ConfigExample != null) {
-                ConsoleHelper.WriteLine("\nConfiguration Example:");
-                ConsoleHelper.WriteLine(r.ConfigExample, ConsoleColor.Gray);
+            foreach (var example in r.GoodExamples) {
+                ConsoleHelper.WriteLine(example, ConsoleColor.Green);
+                ConsoleHelper.Write("\n");
+            }
+            foreach (var example in r.BadExamples) {
+                ConsoleHelper.WriteLine(example, ConsoleColor.Red);
+                ConsoleHelper.Write("\n");
+            }
+            if (r.ConfigExamples.Count > 0) {
+                ConsoleHelper.WriteLine("Configuration Examples:");
+                foreach (var example in r.ConfigExamples) {
+                    ConsoleHelper.WriteLine(example, ConsoleColor.Gray);
+                    ConsoleHelper.Write("\n");
+                }
             } else {
-                ConsoleHelper.WriteLine("\nThis rule does not require configuration.");
+                ConsoleHelper.WriteLine("This rule does not require configuration.");
             }
         }
     }

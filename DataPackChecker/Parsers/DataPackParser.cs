@@ -19,6 +19,7 @@ namespace DataPackChecker.Parsers {
 
             DataPack pack = new DataPack(ParseMcMeta(path));
             ParseNamespaces(path, pack);
+            pack.RebuildReferences();
             return pack;
         }
 

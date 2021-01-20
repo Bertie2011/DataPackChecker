@@ -90,7 +90,14 @@ namespace DataPackChecker.Shared {
                 indent++;
                 e = e.InnerException;
             }
-            Errors.Add(($"Exception while running", msg.ToString()));
+            Errors.Add(($"Error while running", msg.ToString()));
+        }
+
+        /// <summary>
+        /// This method does not provide the creator with enough information, please use a more specific method.
+        /// </summary>
+        public void Error(string message) {
+            Errors.Add(($"General", message));
         }
 
         /// <summary>
@@ -101,19 +108,23 @@ namespace DataPackChecker.Shared {
             Errors.Add(($"{GetResourceIdentifier(ns, f)} - Line {c.Line}: {c.Raw.Substring(0, Math.Min(30, c.Raw.Length))}...", message));
         }
 
+        /// <summary>
+        /// Outputs an error indicating that the configuration is invalid.
+        /// </summary>
+        /// <typeparam name="T">The rule that is calling this method.</typeparam>
+        public void InvalidConfiguration<T>() {
+            Errors.Add(("Configuration", $"The configuration is invalid. Use -i {typeof(T).FullName} for more information."));
+        }
+
         public string GetResourcePath(Namespace ns, Resource r) {
-            if (string.IsNullOrWhiteSpace(r.Path)) {
-                return $"{ns.Name}:{r.Name}";
-            } else {
-                return $"{ns.Name}:{r.Path}/{r.Name}";
-            }
+            return ns.Name + ':' + r.FullPath;
         }
 
         /// <summary>
         /// Returns: {r.GetTypeString()} {GetResourcePath(ns, r)}
         /// </summary>
         public string GetResourceIdentifier(Namespace ns, Resource r) {
-            return $"{r.GetTypeString()} {GetResourcePath(ns, r)}";
+            return $"{r.TypeString} {GetResourcePath(ns, r)}";
         }
 
         public void Print() {

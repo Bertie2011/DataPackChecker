@@ -51,7 +51,9 @@ namespace DataPackChecker {
                     } catch (Exception e) {
                         output.Error(e);
                     }
-                    output.Print();
+                    lock (Console.Out) {
+                        output.Print();
+                    }
                     counter.Signal();
                 });
             }
