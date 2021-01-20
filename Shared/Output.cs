@@ -94,6 +94,13 @@ namespace DataPackChecker.Shared {
         }
 
         /// <summary>
+        /// This method does not provide the creator with enough information, please use a more specific method.
+        /// </summary>
+        public void Error(string message) {
+            Errors.Add(($"General", message));
+        }
+
+        /// <summary>
         /// Output header format:<br/>
         /// Function {ns.Name}:{f.Path}/{f.Name} - Line {c.Line}: {c.Raw}...
         /// </summary>
