@@ -8,9 +8,9 @@ namespace DataPackChecker.Shared {
     abstract public class CheckerRule {
         abstract public string Title { get; }
         abstract public string Description { get; }
-        abstract public string GoodExample { get; }
-        abstract public string BadExample { get; }
-        virtual public string ConfigExample { get; }
+        abstract public List<string> GoodExamples { get; }
+        abstract public List<string> BadExamples { get; }
+        virtual public List<string> ConfigExamples { get; } = new List<string>();
 
         abstract public void Run(DataPack pack, JsonElement? config, Output output);
     }
