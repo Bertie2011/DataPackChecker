@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace DataPackChecker.Shared.Data.Resources {
     public class Command {
-        private static readonly char[] COMMAND_BRACKET_OPEN = new char[] { '[', '{' };
-        private static readonly Dictionary<char, char> COMMAND_BRACKET_CLOSE = new Dictionary<char, char> {
+        private static readonly char[] CommandBracketOpen = new char[] { '[', '{' };
+        private static readonly Dictionary<char, char> CommandBracketClose = new Dictionary<char, char> {
             { '[', ']' }, { '{', '}' }
         };
-        private static readonly char[] COMMAND_QUOTES = new char[] { '"', '\'' };
+        private static readonly char[] CommandQuotes = new char[] { '"', '\'' };
 
         public enum Type {
             Command, Comment, Whitespace
@@ -108,11 +108,11 @@ namespace DataPackChecker.Shared.Data.Resources {
                     escape = false;
                 } else if (c == '\\') {
                     escape = true;
-                } else if (quote == null && COMMAND_BRACKET_OPEN.Any(b => b == c)) {
+                } else if (quote == null && CommandBracketOpen.Any(b => b == c)) {
                     brackets.Push(c);
-                } else if (quote == null && brackets.Count != 0 && c == COMMAND_BRACKET_CLOSE[brackets.Peek()]) {
+                } else if (quote == null && brackets.Count != 0 && c == CommandBracketClose[brackets.Peek()]) {
                     brackets.Pop();
-                } else if (COMMAND_QUOTES.Any(q => q == c)) {
+                } else if (CommandQuotes.Any(q => q == c)) {
                     quote = quote == null ? c : (char?)null;
                 }
             }

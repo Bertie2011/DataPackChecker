@@ -5,6 +5,8 @@ using System.Text;
 
 namespace DataPackChecker {
     class Options {
+        [Option('f', "arguments-file", HelpText = "Read arguments from a file.", SetName = "Args File")]
+        public string ArgsPath { get; set; }
         [Option('o', "keep-open", HelpText = "Keep process running after finishing.")]
         public bool KeepOpen { get; set; }
         [Option('d', "data-pack", HelpText = "Path to root folder of data pack, with data folder and pack.mcmeta file inside. Requires -c, --config.", SetName = "Check")]

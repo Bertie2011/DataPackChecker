@@ -8,9 +8,9 @@ using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers.WorldGen {
     static class TemplatePoolParser {
-        private static readonly Regex NAMESPACE_PATH_REGEX = new Regex(@"[\\/]worldgen[\\/]template_pool([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.json$");
+        private static readonly Regex NamespacePathRegex = new Regex(@"[\\/]worldgen[\\/]template_pool([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.json$");
         static public TemplatePool TryParse(string absPath, string nsPath) {
-            var match = NAMESPACE_PATH_REGEX.Match(absPath, nsPath.Length);
+            var match = NamespacePathRegex.Match(absPath, nsPath.Length);
             if (!match.Success) return null;
             var templatePool = new TemplatePool(match.Groups["path"].Value.Replace('\\', '/'), match.Groups["name"].Value);
             using FileStream fs = new FileStream(absPath, FileMode.Open);

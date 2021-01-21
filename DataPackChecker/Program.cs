@@ -8,22 +8,24 @@ using DataPackChecker.Shared.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace DataPackChecker {
     class Program {
-        const string VERSION = "Data Pack Checker 3.0.0";
+        const string Version = "Data Pack Checker 3.0.0";
 
         static void Main(string[] args) {
             var parser = new Parser(with => {
                 with.EnableDashDash = true;
             });
+
             var parserResult = parser.ParseArguments<Options>(args);
-            parserResult.WithParsed<Options>(options => Run(parserResult, options))
+            parserResult.WithParsed(options => Run(parserResult, options))
               .WithNotParsed(errs => DisplayErrors(parserResult, errs));
         }
 
-        static void DisplayErrors<T>(ParserResult<T> result, IEnumerable<Error> errs) {
+        private static void DisplayErrors<T>(ParserResult<T> result, IEnumerable<Error> errs) {
             if (errs.IsVersion()) {
                 DisplayVersion();
             } else {
@@ -31,20 +33,33 @@ namespace DataPackChecker {
             }
         }
 
-        static void DisplayHelp<T>(ParserResult<T> result) {
+        private static void DisplayHelp<T>(ParserResult<T> result) {
             var helpText = HelpText.AutoBuild(result, h => {
-                h.Heading = VERSION;
+                h.Heading = Version;
                 h.Copyright = "Made by Bertie2011 / ThrownException / Bertiecrafter";
                 return HelpText.DefaultParsingErrorsHandler(result, h);
             }, e => e);
             Console.WriteLine(helpText);
         }
 
-        static void DisplayVersion() {
-            Console.WriteLine(VERSION);
+        private static void DisplayVersion() {
+            Console.WriteLine(Version);
+        }
+
+        private static void FromFile(string path) {
+            try {
+                Main(ConsoleHelper.CreateArgs(File.ReadAllLines(path)[0]));
+            } catch (Exception e) {
+                ConsoleHelper.WriteError(e);
+            }
         }
 
         private static void Run<T>(ParserResult<T> result, Options options) {
+            if (!string.IsNullOrWhiteSpace(options.ArgsPath)) {
+                FromFile(options.ArgsPath);
+                return;
+            }
+
             var (rules, errors) = RuleRegistry.FromDirectory(Path.Join(".", "Rules"));
             var ruleInfo = new RuleInfoPrinter(rules);
             var checker = new Checker(rules);
