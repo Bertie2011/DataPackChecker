@@ -38,24 +38,22 @@ In order to make new rules follow the steps below.
 ### Setup & Creating Rules
 1. Create a new .NET Core Class Library project (and solution) in Visual Studio.
 2. Each project will end up being a .dll file, so use multiple projects to avoid creating one big .dll file. That way users can pick their rules a little more precise and not waste time on loading rules they don't want.
-3. Either create a new gitignored folder or a symbolic link in the solution folder. Use this folder to access a download of the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases). This folder will later be referred to as **`<DPC>`**.
-   > It's important that the folder is **located within the git repository**. Otherwise specifying relative paths might be more difficult. Absolute paths cannot be used by multiple developers and can reveal sensitive information about folder structure.
-4. Download the Shared.dll file from this repo and place it in the solution folder.
-5. Right click `Project` > `Add` > `Reference...` > `Browse...` and select the .dll file. A relative path is saved, so collaboration isn't a problem.
-6. Create classes subclassing from `CheckerRule`. Besides required overriding of abstract members, there are also virtual members you might want to explore and override.
+3. Download the Shared.dll file from this repo and place it in the solution folder.
+4. Right click `Project` > `Add` > `Reference...` > `Browse...` and select the .dll file. A relative path is saved, so collaboration isn't a problem.
+5. Create classes subclassing from `CheckerRule`. Besides required overriding of abstract members, there are also virtual members you might want to explore and override.
    > Note that each rule is executed in its own thread, so your code **must be thread-safe**. As a rule of thumb, your rule should be stateless. This means that your rule does not save any data and one run cannot be influenced by another run
 
 ### Running
-1. Go to `Project` > `Properties` > `Build Events` > `Post-build event command line`, enter the following commands and make it only run if project output is updated:
+1. Create a new gitignored folder or symbolic link in the solution folder. Use this folder to access a download of the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases). This folder will later be referred to as **`<DPC>`**.
+2. Go to `Project` > `Properties` > `Build Events` > `Post-build event command line`, enter the following commands and make it only run if project output is updated:
 ```Batchfile
 xcopy "$(TargetDir)\$(TargetName).dll" "..\<DPC>\Rules" /Y /D /I
 ```
-> Note: The $(var) syntax is supported by Visual Studio and will work as-is. Only replace the `<DPC>` with the folder name containing the Data Pack Checker.
-2. Create a data pack and a config file to test your rule.
-3. Go to `Project` > `Properties` > `Debug` and select `Executable` in the `Launch` dropdown.
-4. Specify `..\<DPC>\<executable>` in `Executable` and `..\<DPC>` in `Working directory`.
-   > The hint in the textbox indicates that you should use an absolute path, which will also be the result of clicking the `Browse...` button. However, it is important to enter a **relative path**, since it will end up in version control and should work for any developer.
-5. Specify the application arguments, which are passed to the executable. A couple examples:
+> Note: The $(var) syntax is supported by Visual Studio and will work as-is. Only replace the `<DPC>`.
+3. Create a data pack and a config file to test your rule.
+4. Go to `Project` > `Properties` > `Debug` and select `Executable` in the `Launch` dropdown. Then specify `..\<DPC>\<executable>` in `Executable`, `..\<DPC>` in `Working directory` and `-f ..\Arguments.txt` in `Application arguments`.
+   > It is important to enter **relative paths**, since it will end up in version control and should work for any developer.
+5. Create a gitignored `Arguments.txt` file in the parent directory of `<DPC>`, which should be the solution folder. The arguments (single line) will be passed to the executable. A couple examples:
 ```Batchfile
 -o -l
 -o -i <identifier>
