@@ -4,22 +4,26 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace DataPackChecker.Shared.Data.Resources {
-    public class Resource : HasKey<string> {
-        public string Path { get; }
+    public abstract class Resource : HasKey<string> {
+        public string IdentifierPath { get; }
         public string Name { get; }
         virtual public string TypeString => GetType().Name;
-        public string FullPath => string.IsNullOrWhiteSpace(Path) ? Name : Path + '/' + Name;
+        public string Identifier => string.IsNullOrWhiteSpace(IdentifierPath) ? Name : IdentifierPath + '/' + Name;
         /// <summary>
-        /// Same as FullPath
+        /// The file path relative to the namespace folder.
         /// </summary>
-        public string Key => FullPath;
+        abstract public string FilePath { get; }
+        /// <summary>
+        /// Same as Identifier
+        /// </summary>
+        public string Key => Identifier;
 
         public Resource(string path, string name) {
-            Path = path;
+            IdentifierPath = path;
             Name = name;
         }
         public override string ToString() {
-            return FullPath;
+            return Identifier;
         }
     }
 }

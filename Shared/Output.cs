@@ -117,7 +117,7 @@ namespace DataPackChecker.Shared {
         }
 
         public string GetResourcePath(Namespace ns, Resource r) {
-            return ns.Name + ':' + r.FullPath;
+            return ns.Name + ':' + r.Identifier;
         }
 
         /// <summary>

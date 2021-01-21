@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace DataPackChecker.Shared.Data.Resources {
     public class Function : Resource {
+        public override string FilePath => $"functions/{Identifier}.mcfunction";
         /// <summary>
         /// Returns all commands in this function. Each command might have a NextCommand (e.g. /execute) and
         /// that command might have a NextCommand of its own. You might want to use CommandsFlat instead.

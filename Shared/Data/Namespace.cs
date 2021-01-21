@@ -17,6 +17,10 @@ namespace DataPackChecker.Shared.Data {
         public WorldGenData WorldGenData { get; } = new WorldGenData();
         public string Name { get; }
         /// <summary>
+        /// Relative to the datapack path. (data/{name})
+        /// </summary>
+        public string FolderPath => $"data/{Name}";
+        /// <summary>
         /// Same as Name
         /// </summary>
         public string Key => Name;

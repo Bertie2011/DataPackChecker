@@ -10,10 +10,12 @@ using DataPackChecker.Shared.Data.Resources;
 namespace DataPackChecker.Shared.Data {
     public class DataPack {
         public JsonElement Meta { get; set; }
+        public string Path { get; }
         public LookupList<string, Namespace> Namespaces { get; } = new LookupList<string, Namespace>();
 
-        public DataPack(JsonElement meta) {
+        public DataPack(string path, JsonElement meta) {
             this.Meta = meta;
+            Path = path;
         }
 
         public void RebuildReferences() {

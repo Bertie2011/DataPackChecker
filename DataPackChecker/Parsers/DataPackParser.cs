@@ -17,7 +17,7 @@ namespace DataPackChecker.Parsers {
             path = Path.TrimEndingDirectorySeparator(path);
             if (!Directory.Exists(path)) throw new ArgumentException("Specified data pack does not exist.");
 
-            DataPack pack = new DataPack(ParseMcMeta(path));
+            DataPack pack = new DataPack(path, ParseMcMeta(path));
             ParseNamespaces(path, pack);
             pack.RebuildReferences();
             return pack;
