@@ -5,4 +5,9 @@
     <RootNamespace>DataPackChecker.Shared</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <DocumentationFile>C:\Users\Bart\Documents\CSharp\DataPackChecker\Shared\Shared.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>

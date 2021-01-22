@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Shared</name>
+    </assembly>
+    <members>
+        <member name="P:DataPackChecker.Shared.Data.Namespace.FolderPath">
+            <summary>
+            Relative to the datapack path. (data/{name})
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Namespace.Key">
+            <summary>
+            Same as Name
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Command.Line">
+            <summary>
+            The line number of this command. The first line has line number 1.
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Command.Raw">
+            <summary>
+            The raw command string.
+            The string ends when a new command is started (e.g. after "run" in /execute) and everything else will be inside NextCommand.
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Command.CommandKey">
+            <summary>
+            The first "word" of the command.
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Command.Arguments">
+            <summary>
+            All space separated arguments of the command, excluding the CommandKey
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Command.NextCommand">
+            <summary>
+            Some commands can have another command embedded (like /execute).
+            A second command embedded in this command will be placed in this variable.
+            Note that the next command might also have a next command of its own,
+            you might want to use the Flat property instead.
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Command.Flat">
+            <summary>
+            Returns this command and all next commands (recursive).
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Function.Commands">
+            <summary>
+            Returns all commands in this function. Each command might have a NextCommand (e.g. /execute) and
+            that command might have a NextCommand of its own. You might want to use CommandsFlat instead.
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Function.CommandsFlat">
+            <summary>
+            Returns all commands, including NextCommands (recursive).
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Function.ReferencesFlat">
+            <summary>
+            Return all uniquely referenced functions (recursive), including this one.
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Function.CommandsFlatWithReferences">
+            <summary>
+            Return all commands (including NextCommands) of all uniquely referenced functions (recursive), including this one.
+            This is an expensive operation.
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Resource.FilePath">
+            <summary>
+            The file path relative to the namespace folder.
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Resource.Key">
+            <summary>
+            Same as Identifier
+            </summary>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,System.String)">
+            <summary>
+            This method does not provide the creator with enough information, please use a more specific method.<br/><br/>
+            Output header format:<br/>
+            Namespace {ns.Name}
+            </summary>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Resource,System.String)">
+            <summary>
+            Output header format:<br/>
+            {resource type} {ns.Name}:{r.Path}/{r.Name}
+            </summary>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Tag,System.String,System.String)">
+            <summary>
+            Output header format:<br/>
+            {type} Tag {ns.Name}:{t.Path}/{t.Name} - {item}
+            </summary>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.JsonResource,System.Text.Json.JsonElement,System.String)">
+            <summary>
+            Output header format:<br/>
+            {resource type} {ns.Name}:{r.Path}/{r.Name} - {element}
+            </summary>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.Error(System.Exception)">
+            <summary>
+            This method does not provide the creator with enough information, please use a more specific method.
+            </summary>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.Error(System.String)">
+            <summary>
+            This method does not provide the creator with enough information, please use a more specific method.
+            </summary>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Function,DataPackChecker.Shared.Data.Resources.Command,System.String)">
+            <summary>
+            Output header format:<br/>
+            Function {ns.Name}:{f.Path}/{f.Name} - Line {c.Line}: {c.Raw}...
+            </summary>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.InvalidConfiguration``1">
+            <summary>
+            Outputs an error indicating that the configuration is invalid.
+            </summary>
+            <typeparam name="T">The rule that is calling this method.</typeparam>
+        </member>
+        <member name="M:DataPackChecker.Shared.Output.GetResourceIdentifier(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Resource)">
+            <summary>
+            Returns: {r.GetTypeString()} {GetResourcePath(ns, r)}
+            </summary>
+        </member>
+    </members>
+</doc>

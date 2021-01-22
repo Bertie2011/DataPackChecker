@@ -13,37 +13,24 @@ using System.Reflection;
 
 namespace DataPackChecker {
     class Program {
-        const string Version = "Data Pack Checker 3.0.0";
-
         static void Main(string[] args) {
             var parser = new Parser(with => {
                 with.EnableDashDash = true;
+                with.AutoVersion = false;
             });
 
             var parserResult = parser.ParseArguments<Options>(args);
             parserResult.WithParsed(options => Run(parserResult, options))
-              .WithNotParsed(errs => DisplayErrors(parserResult, errs));
-        }
-
-        private static void DisplayErrors<T>(ParserResult<T> result, IEnumerable<Error> errs) {
-            if (errs.IsVersion()) {
-                DisplayVersion();
-            } else {
-                DisplayHelp(result);
-            }
+              .WithNotParsed(errs => DisplayHelp(parserResult));
         }
 
         private static void DisplayHelp<T>(ParserResult<T> result) {
             var helpText = HelpText.AutoBuild(result, h => {
-                h.Heading = Version;
+                h.Heading = "Data Pack Checker";
                 h.Copyright = "Made by Bertie2011 / ThrownException / Bertiecrafter";
                 return HelpText.DefaultParsingErrorsHandler(result, h);
             }, e => e);
             Console.WriteLine(helpText);
-        }
-
-        private static void DisplayVersion() {
-            Console.WriteLine(Version);
         }
 
         private static void FromFile(string path) {

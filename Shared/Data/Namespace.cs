@@ -2,6 +2,7 @@
 using DataPackChecker.Shared.Data.Resources;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataPackChecker.Shared.Data {
@@ -15,6 +16,26 @@ namespace DataPackChecker.Shared.Data {
         public LookupList<string, Structure> Structures { get; } = new LookupList<string, Structure>();
         public DimensionData DimensionData { get; } = new DimensionData();
         public WorldGenData WorldGenData { get; } = new WorldGenData();
+
+        public IEnumerable<Resource> AllResources => new List<Resource>()
+            .Concat(Advancements)
+            .Concat(DimensionData.Dimensions)
+            .Concat(DimensionData.DimensionTypes)
+            .Concat(Functions)
+            .Concat(LootTables)
+            .Concat(Predicates)
+            .Concat(Recipes)
+            .Concat(Structures)
+            .Concat(Tags)
+            .Concat(WorldGenData.Biomes)
+            .Concat(WorldGenData.ConfiguredCarvers)
+            .Concat(WorldGenData.ConfiguredFeatures)
+            .Concat(WorldGenData.ConfiguredStructureFeatures)
+            .Concat(WorldGenData.ConfiguredSurfaceBuilders)
+            .Concat(WorldGenData.NoiseSettings)
+            .Concat(WorldGenData.ProcessorLists)
+            .Concat(WorldGenData.TemplatePools);
+
         public string Name { get; }
         /// <summary>
         /// Relative to the datapack path. (data/{name})
