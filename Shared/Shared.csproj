@@ -8,6 +8,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <DocumentationFile>C:\Users\Bart\Documents\CSharp\DataPackChecker\Shared\Shared.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
 </Project>

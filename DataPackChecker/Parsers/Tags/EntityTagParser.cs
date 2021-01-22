@@ -1,16 +1,13 @@
 ﻿using DataPackChecker.Shared.Data;
-using DataPackChecker.Shared.Data.Resources.WorldGen;
-using System;
-using System.Collections.Generic;
+using DataPackChecker.Shared.Data.Resources.Tags;
 using System.IO;
-using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace DataPackChecker.Parsers.WorldGen {
-    static class ConfiguredSurfaceBuilderParser {
+namespace DataPackChecker.Parsers.Tags {
+    static class EntityTagParser {
         static public void FindAndParse(string nsPath, Namespace ns) {
-            var searchPath = Path.Join(nsPath, "worldgen", "configured_surface_builder");
+            var searchPath = Path.Join(nsPath, "tags", "entity_types");
             if (!Directory.Exists(searchPath)) return;
             foreach (var resource in Directory.EnumerateFiles(searchPath, "*", new EnumerationOptions {
                 RecurseSubdirectories = true,
@@ -19,10 +16,10 @@ namespace DataPackChecker.Parsers.WorldGen {
                 if (!resource.EndsWith(".json")) continue;
                 var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
                 var name = Path.GetFileNameWithoutExtension(resource);
-                var worldGenElement = new ConfiguredSurfaceBuilder(path, name);
+                var tag = new EntityTag(path, name);
                 using FileStream fs = new FileStream(resource, FileMode.Open);
-                worldGenElement.Content = JsonDocument.Parse(fs).RootElement;
-                ns.WorldGenData.ConfiguredSurfaceBuilders.Add(worldGenElement);
+                tag.Content = JsonDocument.Parse(fs).RootElement;
+                ns.Tags.EntityTags.Add(tag);
             }
         }
     }

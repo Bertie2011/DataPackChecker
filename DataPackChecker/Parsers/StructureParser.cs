@@ -1,18 +1,22 @@
-﻿using DataPackChecker.Shared.Data.Resources;
-using System;
-using System.Collections.Generic;
+﻿using DataPackChecker.Shared.Data;
+using DataPackChecker.Shared.Data.Resources;
 using System.IO;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
     static class StructureParser {
-        private static readonly Regex NamespacePathRegex = new Regex(@"[\\/]structures([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.nbt$");
-        static public Structure TryParse(string absPath, string nsPath) {
-            var match = NamespacePathRegex.Match(absPath, nsPath.Length);
-            if (!match.Success) return null;
-            return new Structure(match.Groups["path"].Value.Replace('\\', '/'), match.Groups["name"].Value);
+        static public void FindAndParse(string nsPath, Namespace ns) {
+            var searchPath = Path.Join(nsPath, "structures");
+            if (!Directory.Exists(searchPath)) return;
+            foreach (var resource in Directory.EnumerateFiles(searchPath, "*", new EnumerationOptions {
+                RecurseSubdirectories = true,
+                ReturnSpecialDirectories = false
+            })) {
+                if (!resource.EndsWith(".nbt")) continue;
+                var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
+                var name = Path.GetFileNameWithoutExtension(resource);
+                var structure = new Structure(path, name);
+                ns.Structures.Add(structure);
+            }
         }
     }
 }

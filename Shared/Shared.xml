@@ -93,7 +93,7 @@
             {resource type} {ns.Name}:{r.Path}/{r.Name}
             </summary>
         </member>
-        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Tag,System.String,System.String)">
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Tags.Tag,System.String,System.String)">
             <summary>
             Output header format:<br/>
             {type} Tag {ns.Name}:{t.Path}/{t.Name} - {item}

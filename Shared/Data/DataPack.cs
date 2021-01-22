@@ -18,7 +18,8 @@ namespace DataPackChecker.Shared.Data {
             Path = path;
         }
 
-        public void RebuildReferences() {
+        public List<Exception> RebuildReferences() {
+            List<Exception> errors = new List<Exception>();
             foreach (var ns in Namespaces) {
                 foreach (var f in ns.Functions) {
                     HashSet<string> references = new HashSet<string>();
@@ -29,10 +30,19 @@ namespace DataPackChecker.Shared.Data {
                         var refF = parts.Length == 2 ? parts[1] : parts[0];
                         var reference = refNs + ':' + refF;
                         if (!references.Add(reference)) continue;
-                        f.References.Add(Namespaces[refNs].Functions[refF]);
+
+                        Namespace otherNs;
+                        Function otherF;
+
+                        if (!Namespaces.TryGetValue(refNs, out otherNs) || !otherNs.Functions.TryGetValue(refF, out otherF)) {
+                            errors.Append(new InvalidDataException("Could not find function reference: " + reference));
+                            continue;
+                        }
+                        f.References.Add(otherF);
                     }
                 }
             }
+            return errors;
         }
     }
 }

@@ -18,11 +18,10 @@ namespace DataPackChecker {
 
         public void Check(string dataPackPath, string configPath) {
             ConsoleHelper.WriteLine("Reading Data Pack...");
-            DataPack pack;
-            try {
-                pack = DataPackParser.From(dataPackPath);
-            } catch (Exception e) {
-                ConsoleHelper.WriteError(e);
+            var (pack, packErrors) = DataPackParser.From(dataPackPath);
+            if (packErrors.Count > 0) {
+                ConsoleHelper.WriteLine("The following errors occurred while trying to parse the data pack:\n", ConsoleColor.Red);
+                foreach (var error in packErrors) ConsoleHelper.WriteError(error);
                 return;
             }
             ConsoleHelper.WriteLine("Finished Reading Data Pack!");

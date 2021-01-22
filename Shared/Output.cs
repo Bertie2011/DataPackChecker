@@ -1,5 +1,6 @@
 ﻿using DataPackChecker.Shared.Data;
 using DataPackChecker.Shared.Data.Resources;
+using DataPackChecker.Shared.Data.Resources.Tags;
 using System;
 using System.Collections.Generic;
 using System.Text;

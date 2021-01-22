@@ -1,17 +1,25 @@
-﻿using DataPackChecker.Shared.Data.Resources;
+﻿using DataPackChecker.Shared.Data;
+using DataPackChecker.Shared.Data.Resources;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
     static public class FunctionParser {
-        private static readonly Regex NamespacePathRegex = new Regex(@"[\\/]functions([\\/](?<path>.+?))?[\\/](?<name>[^\\/]+)\.mcfunction$");
-        static public Function TryParse(string absPath, string nsPath) {
-            var match = NamespacePathRegex.Match(absPath, nsPath.Length);
-            if (!match.Success) return null;
-            var function = new Function(match.Groups["path"].Value.Replace('\\', '/'), match.Groups["name"].Value);
-            function.Commands = File.ReadAllLines(absPath).Select((c, i) => new Command(i + 1, c)).ToList();
-            return function;
+        static public void FindAndParse(string nsPath, Namespace ns) {
+            var searchPath = Path.Join(nsPath, "functions");
+            if (!Directory.Exists(searchPath)) return;
+            foreach (var resource in Directory.EnumerateFiles(searchPath, "*", new EnumerationOptions {
+                RecurseSubdirectories = true,
+                ReturnSpecialDirectories = false
+            })) {
+                if (!resource.EndsWith(".mcfunction")) continue;
+                var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
+                var name = Path.GetFileNameWithoutExtension(resource);
+                var function = new Function(path, name);
+                function.Commands = File.ReadAllLines(resource).Select((c, i) => new Command(i + 1, c)).ToList();
+                ns.Functions.Add(function);
+            }           
         }
     }
 }
