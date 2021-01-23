@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DataPackChecker.Shared.Collections {
-    public class LookupList<K, V> : ICollection<V> where V : HasKey<K> {
+    public class LookupList<K, V> : ICollection<V>, IReadOnlyCollection<V> where V : HasKey<K> {
 
         private Dictionary<K, V> Data { get; }
         

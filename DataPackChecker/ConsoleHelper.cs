@@ -24,7 +24,7 @@ namespace DataPackChecker {
             for (int i = 0; i < depth; i++) {
                 Console.Write('\t');
             }
-            Console.Error.WriteLine(e.Message);
+            Console.Error.WriteLine($"{e.GetType().Name}: {e.Message}");
             if (e.InnerException != null) WriteError(e.InnerException, color, depth + 1);
             if (depth == 0) Console.ForegroundColor = ConsoleColor.White;
         }

@@ -14,7 +14,7 @@ namespace DataPackChecker.Shared.Data {
         public LookupList<string, Predicate> Predicates { get; } = new LookupList<string, Predicate>();
         public LookupList<string, Recipe> Recipes { get; } = new LookupList<string, Recipe>();
         public LookupList<string, Structure> Structures { get; } = new LookupList<string, Structure>();
-        public TagData Tags { get; } = new TagData();
+        public TagData TagData { get; } = new TagData();
         public DimensionData DimensionData { get; } = new DimensionData();
         public WorldGenData WorldGenData { get; } = new WorldGenData();
 
@@ -27,7 +27,7 @@ namespace DataPackChecker.Shared.Data {
             .Concat(Predicates)
             .Concat(Recipes)
             .Concat(Structures)
-            .Concat(Tags.AllTags)
+            .Concat(TagData.AllTags)
             .Concat(WorldGenData.Biomes)
             .Concat(WorldGenData.ConfiguredCarvers)
             .Concat(WorldGenData.ConfiguredFeatures)

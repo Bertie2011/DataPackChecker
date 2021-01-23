@@ -28,7 +28,7 @@ namespace DataPackChecker.Parsers {
             DataPack pack = new DataPack(path, mcmeta);
             ParseNamespaces(path, pack, errors);
             if (errors.Count > 0) return (pack, errors);
-            errors.AddRange(pack.RebuildReferences());
+            pack.RebuildReferences();
             return (pack, errors);
         }
 

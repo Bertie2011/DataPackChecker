@@ -86,7 +86,7 @@ namespace DataPackChecker.Shared {
             int indent = 0;
             while (e != null) {
                 for (int i = 0; i < indent; i++) msg.Append('\t');
-                msg.Append(e.Message);
+                msg.Append($"{e.GetType().Name}: {e.Message}");
                 if (e.InnerException != null) msg.Append('\n');
                 indent++;
                 e = e.InnerException;

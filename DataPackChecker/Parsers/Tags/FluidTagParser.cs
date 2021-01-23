@@ -19,7 +19,7 @@ namespace DataPackChecker.Parsers.Tags {
                 var tag = new FluidTag(path, name);
                 using FileStream fs = new FileStream(resource, FileMode.Open);
                 tag.Content = JsonDocument.Parse(fs).RootElement;
-                ns.Tags.FluidTags.Add(tag);
+                ns.TagData.FluidTags.Add(tag);
             }
         }
     }

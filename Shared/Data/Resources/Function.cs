@@ -19,20 +19,30 @@ namespace DataPackChecker.Shared.Data.Resources {
             }
         }
 
+        /// <summary>
+        /// All Functions referenced by commands in this function.
+        /// This includes any functions listed in referenced tags. If referenced tags contain more tags, each
+        /// (indirectly) referenced tag is searched for more functions.
+        /// </summary>
         public List<Function> References { get; } = new List<Function>();
 
         /// <summary>
-        /// Return all uniquely referenced functions (recursive), including this one.
+        /// All referenced functions (recursive), including this one.
+        /// This means that any function that is (indirectly) referenced through function commands
+        /// or tags will be listed here.
         /// </summary>
         public List<Function> ReferencesFlat {
             get {
                 HashSet<Function> result = new HashSet<Function>();
                 Queue<Function> queue = new Queue<Function>();
+                result.Add(this);
                 queue.Enqueue(this);
                 while (queue.Count > 0) {
                     var item = queue.Dequeue();
-                    result.Add(item);
-                    foreach (Function f in item.References) if (!result.Contains(f)) queue.Enqueue(f);
+                    foreach (Function f in item.References) if (!result.Contains(f)) {
+                        result.Add(item);
+                        queue.Enqueue(f);
+                    }
                 }
                 return result.ToList();
             }

@@ -18,7 +18,7 @@ namespace DataPackChecker.Parsers.Tags {
                 var tag = new FunctionTag(path, name);
                 using FileStream fs = new FileStream(resource, FileMode.Open);
                 tag.Content = JsonDocument.Parse(fs).RootElement;
-                ns.Tags.FunctionTags.Add(tag);
+                ns.TagData.FunctionTags.Add(tag);
             }
         }
     }

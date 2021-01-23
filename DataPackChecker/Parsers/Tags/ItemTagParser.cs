@@ -19,7 +19,7 @@ namespace DataPackChecker.Parsers.Tags {
                 var tag = new ItemTag(path, name);
                 using FileStream fs = new FileStream(resource, FileMode.Open);
                 tag.Content = JsonDocument.Parse(fs).RootElement;
-                ns.Tags.ItemTags.Add(tag);
+                ns.TagData.ItemTags.Add(tag);
             }
         }
     }
