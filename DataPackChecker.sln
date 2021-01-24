@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataPackChecker", "DataPackChecker\DataPackChecker.csproj", "{7C7834AE-B5FE-4177-A766-4ECC69407B81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataPackChecker", "DataPackChecker\DataPackChecker.csproj", "{7C7834AE-B5FE-4177-A766-4ECC69407B81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{D443FA08-1307-4DF9-BC0F-01F28DD208BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{D443FA08-1307-4DF9-BC0F-01F28DD208BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

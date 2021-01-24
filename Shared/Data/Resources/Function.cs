@@ -48,16 +48,6 @@ namespace DataPackChecker.Shared.Data.Resources {
             }
         }
 
-        /// <summary>
-        /// Return all commands (including NextCommands) of all uniquely referenced functions (recursive), including this one.
-        /// This is an expensive operation.
-        /// </summary>
-        public List<Command> CommandsFlatWithReferences {
-            get {
-                return ReferencesFlat.SelectMany(f => f.CommandsFlat).ToList();
-            }
-        }
-
         public Function(string path, string name) : base(path, name) { }
     }
 }
