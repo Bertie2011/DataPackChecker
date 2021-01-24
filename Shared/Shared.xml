@@ -329,11 +329,5 @@
             <br/><br/><inheritdoc cref="T:DataPackChecker.Shared.Util.JsonElementExtensions"/>
             </summary>
         </member>
-        <member name="M:DataPackChecker.Shared.Util.JsonElementExtensions.IsNull(System.Text.Json.JsonElement,System.String)">
-            <summary>
-            Returns true if the property is null.
-            <br/><br/><inheritdoc cref="T:DataPackChecker.Shared.Util.JsonElementExtensions"/>
-            </summary>
-        </member>
     </members>
 </doc>

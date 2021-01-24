@@ -22,6 +22,18 @@ namespace DataPackChecker.Shared.Util {
             return json.ValueKind == JsonValueKind.Null;
         }
 
+        public static bool IsBool(this JsonElement json) {
+            return json.ValueKind == JsonValueKind.False || json.ValueKind == JsonValueKind.True;
+        }
+
+        public static bool IsNumber(this JsonElement json) {
+            return json.ValueKind == JsonValueKind.Number;
+        }
+
+        public static bool IsString(this JsonElement json) {
+            return json.ValueKind == JsonValueKind.String;
+        }
+
         #region TryAs
         /// <summary>
         /// Returns true if this is a boolean. The out parameter contains the value.
@@ -287,14 +299,29 @@ namespace DataPackChecker.Shared.Util {
             value = default;
             return json.IsObject() && json.TryGetProperty(property, out value) && value.IsObject();
         }
-
-        /// <summary>
-        /// Returns true if the property is null.
-        /// <br/><br/><inheritdoc cref="JsonElementExtensions"/>
-        /// </summary>
+        #endregion TryAs property
         public static bool IsNull(this JsonElement json, string property) {
             return json.IsObject() && json.TryGetProperty(property, out JsonElement value) && value.IsNull();
         }
-        #endregion TryAs property
+
+        public static bool IsArray(this JsonElement json, string property) {
+            return json.IsObject() && json.TryGetProperty(property, out JsonElement value) && value.IsArray();
+        }
+
+        public static bool IsObject(this JsonElement json, string property) {
+            return json.IsObject() && json.TryGetProperty(property, out JsonElement value) && value.IsObject();
+        }
+
+        public static bool IsBool(this JsonElement json, string property) {
+            return json.IsObject() && json.TryGetProperty(property, out JsonElement value) && value.IsBool();
+        }
+
+        public static bool IsNumber(this JsonElement json, string property) {
+            return json.IsObject() && json.TryGetProperty(property, out JsonElement value) && value.IsNumber();
+        }
+
+        public static bool IsString(this JsonElement json, string property) {
+            return json.IsObject() && json.TryGetProperty(property, out JsonElement value) && value.IsString();
+        }
     }
 }
