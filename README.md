@@ -43,12 +43,12 @@ In order to make new rules follow the steps below.
    > A relative path is saved, so collaboration isn't a problem.  
    > The .xml file will be detected automatically if it's in the same folder as the .dll file.
 4. Create classes subclassing from `CheckerRule`.
-   > Besides required overriding of abstract members, there are also virtual members you might want to explore and override.
+   > Besides required overriding of abstract members, there are also virtual members you might want to explore and override.  
    > Note that each rule is executed in its own thread, so your code **must be thread-safe**. As a rule of thumb, your rule should be stateless. This means that your rule does not save any data and one run cannot be influenced by another run.
    > The **identifier** that users will specify in their configuration consists of the fully qualified class name (`This.Is.The.Namespace.Rule1`).
 
 ### Running
-1. Create a new gitignored folder or symbolic link in the solution folder. Use this folder to access a download of the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases). This folder will later be referred to as **`<DPC>`**.
+1. Create a new gitignored folder or symbolic link in the solution folder. Use this folder to store and access a download of the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases). This folder will later be referred to as **`<DPC>`**.
 2. Go to `Project` > `Properties` > `Build Events` > `Post-build event command line`, enter the following commands and make it only run if project output is updated:
 ```Batchfile
 xcopy "$(TargetDir)\$(TargetName).dll" "..\<DPC>\Rules" /Y /D /I
@@ -67,4 +67,4 @@ xcopy "$(TargetDir)\$(TargetName).dll" "..\<DPC>\Rules" /Y /D /I
 
 ### Publish & Update
 1. Simply publish the .dll files in the `bin/Release/netcoreapp3.1` folders of the projects after **building on Release**.
-2. To update to a new version of Data Pack Checker, simply overwrite the Shared.dll file with a new version, fix any warnings/errors and re-publish.
+2. To update to a new version of Data Pack Checker, simply overwrite the Shared.dll and Shared.xml files with a new version, fix any warnings/errors and re-publish.
