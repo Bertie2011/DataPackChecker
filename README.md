@@ -1,5 +1,9 @@
 # Data Pack Checker
-This is a dynamic rule-based style checker CLI for Minecraft Data Packs.
+![Banner](./.github/Banner.webp)
+|--:|
+© _2021, Bertie2011_
+
+This project is a dynamic rule-based style checker CLI for Minecraft Data Packs.
 
 ## For Data Pack Creators
 1. Download the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases)
