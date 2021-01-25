@@ -37,12 +37,15 @@ In order to make new rules follow the steps below.
 
 ### Setup & Creating Rules
 1. Create a new .NET Core Class Library project (and solution) in Visual Studio.
-2. Each project will end up being a .dll file, so use multiple projects to avoid creating one big .dll file. That way users can pick their rules a little more precise and not waste time on loading rules they don't want.
-3. Download the Shared.dll file from this repo and place it in the solution folder.
-4. Right click `Project` > `Add` > `Reference...` > `Browse...` and select the .dll file. A relative path is saved, so collaboration isn't a problem.
-5. Create classes subclassing from `CheckerRule`. Besides required overriding of abstract members, there are also virtual members you might want to explore and override.
-   > Note that each rule is executed in its own thread, so your code **must be thread-safe**. As a rule of thumb, your rule should be stateless. This means that your rule does not save any data and one run cannot be influenced by another run  
-   > The **identifier** that users will specify in their configuration consists of the fully qualified class name (`This.Is.The.Namespace.Rule1`)
+   > Each project will end up being a .dll file, so use multiple projects to avoid creating one big .dll file. That way users can pick their rules a little more precise and not waste time on loading rules they don't want.
+2. Download the [Shared.dll and Shared.xml files](https://github.com/Bertie2011/DataPackChecker/releases) and place them in the solution folder.
+3. Right click `Project` > `Add` > `Reference...` > `Browse...` and select the .dll file.
+   > A relative path is saved, so collaboration isn't a problem.  
+   > The .xml file will be detected automatically if it's in the same folder as the .dll file.
+4. Create classes subclassing from `CheckerRule`.
+   > Besides required overriding of abstract members, there are also virtual members you might want to explore and override.
+   > Note that each rule is executed in its own thread, so your code **must be thread-safe**. As a rule of thumb, your rule should be stateless. This means that your rule does not save any data and one run cannot be influenced by another run.
+   > The **identifier** that users will specify in their configuration consists of the fully qualified class name (`This.Is.The.Namespace.Rule1`).
 
 ### Running
 1. Create a new gitignored folder or symbolic link in the solution folder. Use this folder to access a download of the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases). This folder will later be referred to as **`<DPC>`**.
