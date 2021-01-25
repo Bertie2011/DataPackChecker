@@ -13,6 +13,8 @@ namespace DataPackChecker.Shared.Data.Resources.Tags {
             }
         }
 
+        public override string NamespacedIdentifier => '#' + Namespace.Name + ':' + Identifier;
+
         /// <summary>
         /// A convenient list of entries in the tag. The Content property can be parsed too, but because
         /// an entry can also be an object it is not as straight forward.

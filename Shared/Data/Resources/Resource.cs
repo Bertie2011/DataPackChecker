@@ -5,10 +5,13 @@ using System.Text;
 
 namespace DataPackChecker.Shared.Data.Resources {
     public abstract class Resource : HasKey<string> {
+        [AutoReference]
+        public Namespace Namespace { get; set; }
         public string IdentifierPath { get; }
         public string Name { get; }
         virtual public string TypeString => GetType().Name;
         public string Identifier => string.IsNullOrWhiteSpace(IdentifierPath) ? Name : IdentifierPath + '/' + Name;
+        virtual public string NamespacedIdentifier => Namespace.Name + ':' + Identifier;
         /// <summary>
         /// The file path relative to the namespace folder.
         /// </summary>

@@ -15,6 +15,9 @@ namespace DataPackChecker.Shared.Data.Resources {
             Command, Comment, Whitespace
         }
 
+        [AutoReference]
+        public Function Function { get; set; }
+
         public Type ContentType { get; }
 
         /// <summary>

@@ -4,12 +4,23 @@
         <name>Shared</name>
     </assembly>
     <members>
+        <member name="T:DataPackChecker.Shared.Data.AutoReferenceAttribute">
+            <summary>
+            A non-functional attribute indicating that the property will be filled by
+            <see cref="M:DataPackChecker.Shared.Data.DataPack.RebuildReferences"/>
+            </summary>
+        </member>
         <member name="M:DataPackChecker.Shared.Data.DataPack.FindFunctions(System.String)">
             <summary>
             Find functions by namespaced identifier.
             </summary>
             <param name="identifier">A namespaced identifier, possibly prefixed by # to indicate a tag.<br>(#){namespace}:{path}/{name}</br></param>
             <returns>All functions found by recursively parsing all tags.</returns>
+        </member>
+        <member name="M:DataPackChecker.Shared.Data.DataPack.RebuildReferences">
+            <summary>
+            Rebuilds references marked with <see cref="T:DataPackChecker.Shared.Data.AutoReferenceAttribute"/>.
+            </summary>
         </member>
         <member name="P:DataPackChecker.Shared.Data.Namespace.FolderPath">
             <summary>
@@ -109,22 +120,22 @@
             Namespace {ns.Name}
             </summary>
         </member>
-        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Resource,System.String)">
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Resources.Resource,System.String)">
             <summary>
             Output header format:<br/>
-            {resource type} {ns.Name}:{r.Path}/{r.Name}
+            {resource type} {r.Identifier}
             </summary>
         </member>
-        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Tags.Tag,System.String,System.String)">
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Resources.Tags.Tag,System.String,System.String)">
             <summary>
             Output header format:<br/>
-            {type} Tag {ns.Name}:{t.Path}/{t.Name} - {item}
+            {resource type} {t.Identifier} - {item}
             </summary>
         </member>
-        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.JsonResource,System.Text.Json.JsonElement,System.String)">
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Resources.JsonResource,System.Text.Json.JsonElement,System.String)">
             <summary>
             Output header format:<br/>
-            {resource type} {ns.Name}:{r.Path}/{r.Name} - {element}
+            {resource type} {r.Identifier} - {element}
             </summary>
         </member>
         <member name="M:DataPackChecker.Shared.Output.Error(System.Exception)">
@@ -137,10 +148,10 @@
             This method does not provide the creator with enough information, please use a more specific method.
             </summary>
         </member>
-        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Function,DataPackChecker.Shared.Data.Resources.Command,System.String)">
+        <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Resources.Command,System.String)">
             <summary>
             Output header format:<br/>
-            Function {ns.Name}:{f.Path}/{f.Name} - Line {c.Line}: {c.Raw}...
+            Function {c.Function.Identifier} - Line {c.Line}: {c.Raw}...
             </summary>
         </member>
         <member name="M:DataPackChecker.Shared.Output.InvalidConfiguration``1">
@@ -149,7 +160,7 @@
             </summary>
             <typeparam name="T">The rule that is calling this method.</typeparam>
         </member>
-        <member name="M:DataPackChecker.Shared.Output.GetResourceIdentifier(DataPackChecker.Shared.Data.Namespace,DataPackChecker.Shared.Data.Resources.Resource)">
+        <member name="M:DataPackChecker.Shared.Output.GetResourceIdentifier(DataPackChecker.Shared.Data.Resources.Resource)">
             <summary>
             Returns: {r.GetTypeString()} {GetResourcePath(ns, r)}
             </summary>

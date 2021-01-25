@@ -24,6 +24,7 @@ namespace DataPackChecker.Shared.Data.Resources {
         /// This includes any functions listed in referenced tags. If referenced tags contain more tags, each
         /// (indirectly) referenced tag is searched for more functions.
         /// </summary>
+        [AutoReference]
         public List<Function> References { get; } = new List<Function>();
 
         /// <summary>

@@ -55,27 +55,27 @@ namespace DataPackChecker.Shared {
 
         /// <summary>
         /// Output header format:<br/>
-        /// {resource type} {ns.Name}:{r.Path}/{r.Name}
+        /// {resource type} {r.Identifier}
         /// </summary>
-        public void Error(Namespace ns, Resource r, string message) {
-            Errors.Add(($"{GetResourceIdentifier(ns, r)}", message));
+        public void Error(Resource r, string message) {
+            Errors.Add(($"{GetResourceIdentifier(r)}", message));
         }
 
         /// <summary>
         /// Output header format:<br/>
-        /// {type} Tag {ns.Name}:{t.Path}/{t.Name} - {item}
+        /// {resource type} {t.Identifier} - {item}
         /// </summary>
-        public void Error(Namespace ns, Tag t, string item, string message) {
-            Errors.Add(($"{GetResourceIdentifier(ns, t)} - {item}", message));
+        public void Error(Tag t, string item, string message) {
+            Errors.Add(($"{GetResourceIdentifier(t)} - {item}", message));
         }
 
         /// <summary>
         /// Output header format:<br/>
-        /// {resource type} {ns.Name}:{r.Path}/{r.Name} - {element}
+        /// {resource type} {r.Identifier} - {element}
         /// </summary>
-        public void Error(Namespace ns, JsonResource r, JsonElement element, string message) {
+        public void Error(JsonResource r, JsonElement element, string message) {
             var json = JsonSerializer.Serialize(element, JsonOptions);
-            Errors.Add(($"{GetResourceIdentifier(ns, r)} - {json}", message));
+            Errors.Add(($"{GetResourceIdentifier(r)} - {json}", message));
         }
 
         /// <summary>
@@ -103,10 +103,10 @@ namespace DataPackChecker.Shared {
 
         /// <summary>
         /// Output header format:<br/>
-        /// Function {ns.Name}:{f.Path}/{f.Name} - Line {c.Line}: {c.Raw}...
+        /// Function {c.Function.Identifier} - Line {c.Line}: {c.Raw}...
         /// </summary>
-        public void Error(Namespace ns, Function f, Command c, string message) {
-            Errors.Add(($"{GetResourceIdentifier(ns, f)} - Line {c.Line}: {c.Raw.Substring(0, Math.Min(30, c.Raw.Length))}...", message));
+        public void Error(Command c, string message) {
+            Errors.Add(($"{GetResourceIdentifier(c.Function)} - Line {c.Line}: {c.Raw.Substring(0, Math.Min(30, c.Raw.Length))}...", message));
         }
 
         /// <summary>
@@ -117,15 +117,11 @@ namespace DataPackChecker.Shared {
             Errors.Add(("Configuration", $"The configuration is invalid. Use -i {typeof(T).FullName} for more information."));
         }
 
-        public string GetResourcePath(Namespace ns, Resource r) {
-            return ns.Name + ':' + r.Identifier;
-        }
-
         /// <summary>
         /// Returns: {r.GetTypeString()} {GetResourcePath(ns, r)}
         /// </summary>
-        public string GetResourceIdentifier(Namespace ns, Resource r) {
-            return $"{r.TypeString} {GetResourcePath(ns, r)}";
+        public string GetResourceIdentifier(Resource r) {
+            return $"{r.TypeString} {r.NamespacedIdentifier}";
         }
 
         public void Print() {

@@ -9,6 +9,7 @@ namespace DataPackChecker.Shared.Data.Resources.Tags {
         /// A list of all functions referenced by this tag.
         /// This is recursive for any tags listed in other tags.
         /// </summary>
+        [AutoReference]
         public List<Function> References { get; } = new List<Function>();
 
         public FunctionTag(string path, string name) : base(path, name) {}

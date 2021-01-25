@@ -56,16 +56,23 @@ namespace DataPackChecker.Shared.Data {
             return result.ToList();
         }
 
+        /// <summary>
+        /// Rebuilds references marked with <see cref="AutoReferenceAttribute"/>.
+        /// </summary>
         public void RebuildReferences() {
             foreach (var ns in Namespaces) {
+                ns.DataPack = this;
                 foreach (var f in ns.Functions) {
+                    f.Namespace = ns;
+                    f.References.Clear();
                     foreach (var c in f.CommandsFlat) {
+                        c.Function = f;
                         if (c.ContentType != Command.Type.Command || c.CommandKey != "function") continue;
-
                         f.References.AddRange(FindFunctions(c.Arguments[0]));
                     }
                 }
                 foreach (var ft in ns.TagData.FunctionTags) {
+                    ft.References.Clear();
                     ft.References.AddRange(FindFunctions('#' + ns.Name + ':' + ft.Identifier));
                 }
             }

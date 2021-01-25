@@ -8,6 +8,8 @@ using System.Text;
 
 namespace DataPackChecker.Shared.Data {
     public class Namespace : HasKey<string> {
+        [AutoReference]
+        public DataPack DataPack { get; set; }
         public LookupList<string, Function> Functions { get; } = new LookupList<string, Function>();
         public LookupList<string, Advancement> Advancements { get; } = new LookupList<string, Advancement>();
         public LookupList<string, LootTable> LootTables { get; } = new LookupList<string, LootTable>();
