@@ -62,8 +62,10 @@ namespace DataPackChecker.Shared.Data {
         public void RebuildReferences() {
             foreach (var ns in Namespaces) {
                 ns.DataPack = this;
+                foreach (var r in ns.AllResources) {
+                    r.Namespace = ns;
+                }
                 foreach (var f in ns.Functions) {
-                    f.Namespace = ns;
                     f.References.Clear();
                     foreach (var c in f.CommandsFlat) {
                         c.Function = f;

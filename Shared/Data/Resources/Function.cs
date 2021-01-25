@@ -41,7 +41,7 @@ namespace DataPackChecker.Shared.Data.Resources {
                 while (queue.Count > 0) {
                     var item = queue.Dequeue();
                     foreach (Function f in item.References) if (!result.Contains(f)) {
-                        result.Add(item);
+                        result.Add(f);
                         queue.Enqueue(f);
                     }
                 }
