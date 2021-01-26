@@ -8,7 +8,7 @@ This project is a dynamic rule-based style checker CLI for Minecraft Data Packs.
 ## For Data Pack Creators
 1. Download the [Data Pack Checker](https://github.com/Bertie2011/DataPackChecker/releases)
 2. Download .dll files, which contain the actual rules. Place them in a Rules folder in the same folder as the executable.
-   > Note that a rule can do whatever it wants to your system, so do not download rule files of **untrusted sources**.  
+   > **Note that a rule can do anything to your system, so do not download rule files of untrusted sources**.  
    > Try the [rules repository](https://github.com/Bertie2011/DataPackCheckerRules) by the author of Data Pack Checker for recommended basic rules.
 3. Skip to the last step if you got given a config file.
 4. Read up on which rules are available by opening up a Console/Terminal window and running the software with the `--rule-list` (`-l`) and `--rule-info <identifier>` (`-i`) options.
