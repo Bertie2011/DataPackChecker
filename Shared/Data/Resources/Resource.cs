@@ -10,7 +10,14 @@ namespace DataPackChecker.Shared.Data.Resources {
         public string IdentifierPath { get; }
         public string Name { get; }
         virtual public string TypeString => GetType().Name;
+        /// <summary>
+        /// Equal to "IdentifierPath/Name"
+        /// </summary>
         public string Identifier => string.IsNullOrWhiteSpace(IdentifierPath) ? Name : IdentifierPath + '/' + Name;
+        /// <summary>
+        /// The identifier used within Minecraft to target this resource.
+        /// Most often equal to "Namespace:Identifier"
+        /// </summary>
         virtual public string NamespacedIdentifier => Namespace.Name + ':' + Identifier;
         /// <summary>
         /// The file path relative to the namespace folder.
@@ -26,7 +33,7 @@ namespace DataPackChecker.Shared.Data.Resources {
             Name = name;
         }
         public override string ToString() {
-            return Identifier;
+            return NamespacedIdentifier;
         }
     }
 }

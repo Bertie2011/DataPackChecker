@@ -55,7 +55,7 @@ namespace DataPackChecker.Parsers {
         // Root directory
         private static void ParseNamespaces(string path, DataPack pack, List<Exception> errors) {
             var dataPath = Path.Join(path, "data");
-            List<Action> actions = new List<Action>();
+            List<(string Location, Action Action)> actions = new List<(string Location, Action Action)>();
             foreach (var namespacePath in Directory.EnumerateDirectories(dataPath)) {
                 var namespaceObj = new Namespace(Path.GetFileName(namespacePath));
                 ParseResources(namespacePath, namespaceObj, actions);
@@ -66,9 +66,9 @@ namespace DataPackChecker.Parsers {
             var counter = new CountdownEvent(actions.Count);
             foreach (var entry in actions) ThreadPool.QueueUserWorkItem(s => {
                 try {
-                    entry();
+                    entry.Action();
                 } catch (Exception e) {
-                    errors.Add(e);
+                    errors.Add(new InvalidDataException("Exception while parsing " + entry.Location, e));
                 }
                 counter.Signal();
             });
@@ -76,28 +76,28 @@ namespace DataPackChecker.Parsers {
         }
 
         // Namespace directory
-        private static void ParseResources(string path, Namespace ns, List<Action> runLater) {
-            runLater.Add(() => DimensionParser.FindAndParse(path, ns));
-            runLater.Add(() => DimensionTypeParser.FindAndParse(path, ns));
-            runLater.Add(() => BlockTagParser.FindAndParse(path, ns));
-            runLater.Add(() => EntityTagParser.FindAndParse(path, ns));
-            runLater.Add(() => FluidTagParser.FindAndParse(path, ns));
-            runLater.Add(() => FunctionTagParser.FindAndParse(path, ns));
-            runLater.Add(() => ItemsTagParser.FindAndParse(path, ns));
-            runLater.Add(() => BiomeParser.FindAndParse(path, ns));
-            runLater.Add(() => ConfiguredCarverParser.FindAndParse(path, ns));
-            runLater.Add(() => ConfiguredFeatureParser.FindAndParse(path, ns));
-            runLater.Add(() => ConfiguredStructureFeatureParser.FindAndParse(path, ns));
-            runLater.Add(() => ConfiguredSurfaceBuilderParser.FindAndParse(path, ns));
-            runLater.Add(() => NoiseSettingsParser.FindAndParse(path, ns));
-            runLater.Add(() => ProcessorListParser.FindAndParse(path, ns));
-            runLater.Add(() => TemplatePoolParser.FindAndParse(path, ns));
-            runLater.Add(() => AdvancementParser.FindAndParse(path, ns));
-            runLater.Add(() => FunctionParser.FindAndParse(path, ns));
-            runLater.Add(() => LootTableParser.FindAndParse(path, ns));
-            runLater.Add(() => PredicateParser.FindAndParse(path, ns));
-            runLater.Add(() => RecipeParser.FindAndParse(path, ns));
-            runLater.Add(() => StructureParser.FindAndParse(path, ns));
+        private static void ParseResources(string path, Namespace ns, List<(string, Action)> runLater) {
+            runLater.Add((path, () => DimensionParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => DimensionTypeParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => BlockTagParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => EntityTagParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => FluidTagParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => FunctionTagParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => ItemsTagParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => BiomeParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => ConfiguredCarverParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => ConfiguredFeatureParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => ConfiguredStructureFeatureParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => ConfiguredSurfaceBuilderParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => NoiseSettingsParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => ProcessorListParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => TemplatePoolParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => AdvancementParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => FunctionParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => LootTableParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => PredicateParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => RecipeParser.FindAndParse(path, ns)));
+            runLater.Add((path, () => StructureParser.FindAndParse(path, ns)));
         }
     }
 }

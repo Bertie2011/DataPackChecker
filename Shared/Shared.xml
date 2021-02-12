@@ -91,6 +91,17 @@
             or tags will be listed here.
             </summary>
         </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Resource.Identifier">
+            <summary>
+            Equal to "IdentifierPath/Name"
+            </summary>
+        </member>
+        <member name="P:DataPackChecker.Shared.Data.Resources.Resource.NamespacedIdentifier">
+            <summary>
+            The identifier used within Minecraft to target this resource.
+            Most often equal to "Namespace:Identifier"
+            </summary>
+        </member>
         <member name="P:DataPackChecker.Shared.Data.Resources.Resource.FilePath">
             <summary>
             The file path relative to the namespace folder.
