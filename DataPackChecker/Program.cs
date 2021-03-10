@@ -57,19 +57,34 @@ namespace DataPackChecker {
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(options.DataPackPath) && !string.IsNullOrWhiteSpace(options.ConfigPath)) {
-                checker.Check(options.DataPackPath, options.ConfigPath);
-            } else if (options.RuleList) {
+            if (options.RuleList) {
                 ruleInfo.PrintList();
             } else if (!string.IsNullOrWhiteSpace(options.RuleInfo)) {
                 ruleInfo.PrintOne(options.RuleInfo);
             } else if (options.ConfigHelp) {
                 ConsoleHelper.WriteLine(Config.ExampleContents);
             } else {
-                DisplayHelp(result);
+                if (options.RequiresBaseAndWorld) {
+                    options.EnsureBasePath();
+                    options.EnsureWorld();
+                }
+                Console.Clear();
+                options.EnsureDataPackPath();
+                Console.Clear();
+                options.EnsureConfigPath();
+                Console.Clear();
+                var fullPath = options.RequiresBaseAndWorld ? Path.Join(options.BasePath, "saves", options.World, "datapacks", options.DataPackPath) : options.DataPackPath;
+                
+                checker.Check(fullPath, options.ConfigPath);
+                while (options.Life == Options.LifeTime.repeat) {
+                    ConsoleHelper.WriteLine("\nPress any key to continue...", ConsoleColor.Gray);
+                    Console.ReadKey();
+                    Console.Clear();
+                    checker.Check(fullPath, options.ConfigPath);
+                }
             }
 
-            if (options.KeepOpen) {
+            if (options.Life == Options.LifeTime.await || options.Life == Options.LifeTime.repeat) {
                 ConsoleHelper.WriteLine("\nPress any key to exit...", ConsoleColor.Gray);
                 Console.ReadKey();
             }

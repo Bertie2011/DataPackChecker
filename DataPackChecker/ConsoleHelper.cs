@@ -59,5 +59,18 @@ namespace DataPackChecker {
             if (arg.Length > 0) args.Add(arg.ToString());
             return args.ToArray();
         }
+
+        internal static string PickOne(string prompt, IEnumerable<string> options) {
+            WriteLine(prompt);
+            List<string> optionsList = options.ToList();
+            for (int i = 1; i <= optionsList.Count(); i++) {
+                WriteLine($"{i}. {optionsList[i - 1]}");
+            }
+            while (true) {
+                if (int.TryParse(Console.ReadLine(), out int index) && index >= 1 && index <= optionsList.Count()) {
+                    return optionsList[index - 1];
+                }
+            }
+        }
     }
 }
