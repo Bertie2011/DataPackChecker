@@ -17,6 +17,7 @@ namespace DataPackChecker {
             var parser = new Parser(with => {
                 with.EnableDashDash = true;
                 with.AutoVersion = false;
+                with.CaseInsensitiveEnumValues = true;
             });
 
             var parserResult = parser.ParseArguments<Options>(args);
@@ -76,7 +77,7 @@ namespace DataPackChecker {
                 var fullPath = options.RequiresBaseAndWorld ? Path.Join(options.BasePath, "saves", options.World, "datapacks", options.DataPackPath) : options.DataPackPath;
                 
                 checker.Check(fullPath, options.ConfigPath);
-                while (options.Life == Options.LifeTime.repeat) {
+                while (options.Life == Options.LifeTime.REPEAT) {
                     ConsoleHelper.WriteLine("\nPress any key to continue...", ConsoleColor.Gray);
                     Console.ReadKey();
                     Console.Clear();
@@ -84,7 +85,7 @@ namespace DataPackChecker {
                 }
             }
 
-            if (options.Life == Options.LifeTime.await || options.Life == Options.LifeTime.repeat) {
+            if (options.Life == Options.LifeTime.AWAIT || options.Life == Options.LifeTime.REPEAT) {
                 ConsoleHelper.WriteLine("\nPress any key to exit...", ConsoleColor.Gray);
                 Console.ReadKey();
             }
