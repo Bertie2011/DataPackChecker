@@ -16,7 +16,7 @@ namespace DataPackChecker {
         private const char BasePathArg = 'b';
         [Option('f', "arguments-file", HelpText = "Read arguments from a file.", SetName = "Args File")]
         public string ArgsPath { get; set; }
-        [Option('t', "life-time", HelpText = "Indicates what happens after finishing. Once = exit, Await = wait for keyboard input, Repeat = wait for keyboard input and repeat. Unless performing a check, repeat equals await.", Default = LifeTime.ONCE)]
+        [Option('t', "life-time", HelpText = "Indicates what happens after finishing. Once = exit, Await = wait for keyboard input, Repeat = wait for keyboard input and repeat. Unless performing a check, 'repeat' equals 'await'.", Default = LifeTime.REPEAT)]
         public LifeTime Life { get; set; }
         [Option(BasePathArg, "base-path", HelpText = "Base path for the minecraft folder. Ignored if data pack path is absolute or starts with a dot. An educated guess will be made if not ignored and missing.", SetName = "Check")]
         public string BasePath { get; set; }
