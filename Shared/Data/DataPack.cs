@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.Json;
 using System.Linq;
 using DataPackChecker.Shared.Collections;
-using System.IO;
 using DataPackChecker.Shared.Data.Resources;
 using DataPackChecker.Shared.Data.Resources.Tags;
+using DataPackChecker.Shared.FileSystems;
 
 namespace DataPackChecker.Shared.Data {
     public class DataPack {
         public JsonElement Meta { get; set; }
-        public string Path { get; }
+        public IFileSystem Files { get; }
         public LookupList<string, Namespace> Namespaces { get; } = new LookupList<string, Namespace>();
 
-        public DataPack(string path, JsonElement meta) {
-            this.Meta = meta;
-            Path = path;
+        public DataPack(IFileSystem files, JsonElement meta) {
+            Meta = meta;
+            Files = files;
         }
 
         /// <summary>
