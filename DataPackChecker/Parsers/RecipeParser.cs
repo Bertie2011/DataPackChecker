@@ -14,7 +14,7 @@ namespace DataPackChecker.Parsers {
                 var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
                 var name = Path.GetFileNameWithoutExtension(resource);
                 var recipe = new Recipe(path, name);
-                using Stream fs = files.Open(resource);
+                using Stream fs = files.OpenRead(resource);
                 recipe.Content = JsonDocument.Parse(fs).RootElement;
                 ns.Recipes.Add(recipe);
             }

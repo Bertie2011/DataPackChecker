@@ -15,7 +15,7 @@ namespace DataPackChecker.Parsers.Dimensions {
                 var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
                 var name = Path.GetFileNameWithoutExtension(resource);
                 var dimension = new Dimension(path, name);
-                using Stream fs = files.Open(resource);
+                using Stream fs = files.OpenRead(resource);
                 dimension.Content = JsonDocument.Parse(fs).RootElement;
                 ns.DimensionData.Dimensions.Add(dimension);
             }

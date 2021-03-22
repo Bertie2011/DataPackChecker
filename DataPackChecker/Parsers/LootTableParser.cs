@@ -18,7 +18,7 @@ namespace DataPackChecker.Parsers {
                 var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
                 var name = Path.GetFileNameWithoutExtension(resource);
                 var lootTable = new LootTable(path, name);
-                using Stream fs = files.Open(resource);
+                using Stream fs = files.OpenRead(resource);
                 lootTable.Content = JsonDocument.Parse(fs).RootElement;
                 ns.LootTables.Add(lootTable);
             }

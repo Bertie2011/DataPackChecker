@@ -18,7 +18,7 @@ namespace DataPackChecker.Parsers.WorldGen {
                 var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
                 var name = Path.GetFileNameWithoutExtension(resource);
                 var worldGenElement = new ProcessorList(path, name);
-                using Stream fs = files.Open(resource);
+                using Stream fs = files.OpenRead(resource);
                 worldGenElement.Content = JsonDocument.Parse(fs).RootElement;
                 ns.WorldGenData.ProcessorLists.Add(worldGenElement);
             }

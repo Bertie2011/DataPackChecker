@@ -14,7 +14,7 @@ namespace DataPackChecker.Parsers.Tags {
                 var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
                 var name = Path.GetFileNameWithoutExtension(resource);
                 var tag = new FunctionTag(path, name);
-                using Stream fs = files.Open(resource);
+                using Stream fs = files.OpenRead(resource);
                 tag.Content = JsonDocument.Parse(fs).RootElement;
                 ns.TagData.FunctionTags.Add(tag);
             }

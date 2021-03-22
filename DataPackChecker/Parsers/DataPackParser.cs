@@ -48,7 +48,7 @@ namespace DataPackChecker.Parsers {
 
             try {
                 JsonDocument mcmetaContent;
-                using (Stream input = files.Open(mcmeta)) {
+                using (Stream input = files.OpenRead(mcmeta)) {
                     mcmetaContent = JsonDocument.Parse(input);
                 }
                 return mcmetaContent.RootElement;

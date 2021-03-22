@@ -19,8 +19,8 @@ namespace DataPackChecker.Shared.FileSystems {
             return Directory.Exists(EnsureAbsolute(dir));
         }
 
-        public Stream Open(string file) {
-            return new FileStream(EnsureAbsolute(file), FileMode.Open);
+        public Stream OpenRead(string file) {
+            return new FileStream(EnsureAbsolute(file), FileMode.Open, FileAccess.Read);
         }
 
         private string EnsureAbsolute(string file) {
@@ -43,8 +43,8 @@ namespace DataPackChecker.Shared.FileSystems {
             }).Select(s => Path.GetRelativePath(BasePath, s));
         }
 
-        public IEnumerable<string> ReadAllLines(string resource) {
-            return File.ReadAllLines(EnsureAbsolute(resource));
+        public IEnumerable<string> ReadAllLines(string file) {
+            return File.ReadAllLines(EnsureAbsolute(file));
         }
     }
 }
