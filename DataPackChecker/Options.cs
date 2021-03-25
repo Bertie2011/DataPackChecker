@@ -22,7 +22,7 @@ namespace DataPackChecker {
         public string BasePath { get; set; }
         [Option('w', "world", HelpText = "World name. Ignored if data pack path is absolute or starts with a dot. You will be prompted to select a world if not ignored and missing.", SetName = "Check")]
         public string World { get; set; }
-        [Option('d', "data-pack", HelpText = "Path to root folder of data pack, with data folder and pack.mcmeta file inside. You will be prompted to select a data pack if missing.", SetName = "Check")]
+        [Option('d', "data-pack", HelpText = "Path to data pack folder or zip file with data folder and pack.mcmeta file inside. You will be prompted to select a data pack if missing.", SetName = "Check")]
         public string DataPackPath { get; set; }
         [Option('c', "config", HelpText = "Path to configuration file that specifies the rules. You will be prompted to select a config file in the current working directory or the datapacks folder of the world save if missing.", SetName = "Check")]
         public string ConfigPath { get; set; }
@@ -56,7 +56,9 @@ namespace DataPackChecker {
         public void EnsureDataPackPath() {
             if (!string.IsNullOrWhiteSpace(DataPackPath)) return;
             var datapacksPath = Path.Join(BasePath, "saves", World, "datapacks");
-            var dirs = Directory.EnumerateDirectories(datapacksPath).Select(d => Path.GetRelativePath(datapacksPath, d));
+            var dirs = Directory.EnumerateDirectories(datapacksPath)
+                .Concat(Directory.EnumerateFiles(datapacksPath, "*.zip"))
+                .Select(d => Path.GetRelativePath(datapacksPath, d));
             if (dirs.Count() == 0) throw new Exception($"{datapacksPath} did not contain any subfolders!");
             DataPackPath = ConsoleHelper.PickOne("Select a data pack:", dirs);
         }
