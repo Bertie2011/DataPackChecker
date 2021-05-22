@@ -19,7 +19,7 @@ namespace DataPackChecker.Shared.Data.Resources.Tags {
         /// A convenient list of entries in the tag. The Content property can be parsed too, but because
         /// an entry can also be an object it is not as straight forward.
         /// </summary>
-        public List<(string Identifier, bool Required)> Entries { get; } = new List<(string Identifier, bool Required)>();
+        public List<TagEntry> Entries { get; } = new List<TagEntry>();
 
         public Tag(string path, string name) : base(path, name) {}
 
@@ -27,9 +27,9 @@ namespace DataPackChecker.Shared.Data.Resources.Tags {
             Entries.Clear();
             foreach (var entry in Content.GetProperty("values").EnumerateArray()) {
                 if (entry.ValueKind == JsonValueKind.String) {
-                    Entries.Add((entry.GetString(), true));
+                    Entries.Add(new TagEntry(entry.GetString(), true));
                 } else if (entry.ValueKind == JsonValueKind.Object) {
-                    Entries.Add((entry.GetProperty("id").GetString(), entry.GetProperty("required").GetBoolean()));
+                    Entries.Add(new TagEntry(entry.GetProperty("id").GetString(), entry.GetProperty("required").GetBoolean()));
                 } else {
                     throw new InvalidDataException($"Could not read {entry} in tag {Identifier}");
                 }

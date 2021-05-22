@@ -2,7 +2,8 @@
   "profiles": {
     "DataPackChecker": {
       "commandName": "Project",
-      "commandLineArgs": "-f \"args.txt\""
+      "commandLineArgs": "-d \"./1_17\"",
+      "workingDirectory": "$(TargetDir)"
     }
   }
 }

@@ -89,6 +89,7 @@ namespace DataPackChecker.Parsers {
             runLater.Add((namespacePath, () => FluidTagParser.FindAndParse(files, namespacePath, ns)));
             runLater.Add((namespacePath, () => FunctionTagParser.FindAndParse(files, namespacePath, ns)));
             runLater.Add((namespacePath, () => ItemsTagParser.FindAndParse(files, namespacePath, ns)));
+            runLater.Add((namespacePath, () => GameEventTagParser.FindAndParse(files, namespacePath, ns)));
             runLater.Add((namespacePath, () => BiomeParser.FindAndParse(files, namespacePath, ns)));
             runLater.Add((namespacePath, () => ConfiguredCarverParser.FindAndParse(files, namespacePath, ns)));
             runLater.Add((namespacePath, () => ConfiguredFeatureParser.FindAndParse(files, namespacePath, ns)));
