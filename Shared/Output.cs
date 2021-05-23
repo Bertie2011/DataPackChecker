@@ -58,7 +58,7 @@ namespace DataPackChecker.Shared {
         /// {resource type} {r.Identifier}
         /// </summary>
         public void Error(Resource r, string message) {
-            Errors.Add(($"{GetResourceIdentifier(r)}", message));
+            Errors.Add((GetResourceIdentifier(r), message));
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace DataPackChecker.Shared {
         /// </summary>
         public void Error(JsonResource r, JsonElement element, string message) {
             var json = JsonSerializer.Serialize(element, JsonOptions);
-            Errors.Add(($"{GetResourceIdentifier(r)} - {json}", message));
+            Errors.Add((GetResourceIdentifier(r), $"Relevant part of JSON: {json}\n{message}"));
         }
 
         /// <summary>
