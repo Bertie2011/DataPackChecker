@@ -19,6 +19,7 @@ namespace DataPackChecker.Shared.Data {
         public TagData TagData { get; } = new TagData();
         public DimensionData DimensionData { get; } = new DimensionData();
         public WorldGenData WorldGenData { get; } = new WorldGenData();
+        public LookupList<string, ItemModifier> ItemModifiers { get; } = new LookupList<string, ItemModifier>();
 
         public IEnumerable<Resource> AllResources => new List<Resource>()
             .Concat(Advancements)
@@ -37,7 +38,8 @@ namespace DataPackChecker.Shared.Data {
             .Concat(WorldGenData.ConfiguredSurfaceBuilders)
             .Concat(WorldGenData.NoiseSettings)
             .Concat(WorldGenData.ProcessorLists)
-            .Concat(WorldGenData.TemplatePools);
+            .Concat(WorldGenData.TemplatePools)
+            .Concat(ItemModifiers);
 
         public string Name { get; }
         /// <summary>
