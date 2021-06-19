@@ -5,8 +5,8 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers.WorldGen {
-    static class BiomeParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    class BiomeParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "worldgen", "biome");
             if (!files.DirectoryExists(searchPath)) return;
             foreach (var resource in files.EnumerateFiles(searchPath, true)) {

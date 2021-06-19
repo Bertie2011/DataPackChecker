@@ -5,8 +5,8 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers.Tags {
-    static class FluidTagParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    class FluidTagParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "tags", "fluids");
             if (!files.DirectoryExists(searchPath)) return;
             foreach (var resource in files.EnumerateFiles(searchPath, true)) {

@@ -4,8 +4,8 @@ using DataPackChecker.Shared.Data.Resources;
 using System.IO;
 
 namespace DataPackChecker.Parsers {
-    static class StructureParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    class StructureParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "structures");
             if (!files.DirectoryExists(searchPath)) return;
             foreach (var resource in files.EnumerateFiles(searchPath, true)) {

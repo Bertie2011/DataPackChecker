@@ -8,6 +8,8 @@ using DataPackChecker.Parsers.WorldGen;
 using DataPackChecker.Parsers.Tags;
 using System.Threading;
 using DataPackChecker.FileSystems;
+using System.Reflection;
+using System.Linq;
 
 namespace DataPackChecker.Parsers {
     static class DataPackParser {
@@ -78,28 +80,10 @@ namespace DataPackChecker.Parsers {
 
         // namespacePath = relative path to namespace folder, with the data pack as root.
         private static void ParseResources(IFileSystem files, string namespacePath, Namespace ns, List<(string, Action)> runLater) {
-            runLater.Add((namespacePath, () => DimensionParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => DimensionTypeParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => BlockTagParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => EntityTagParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => FluidTagParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => FunctionTagParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => ItemsTagParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => GameEventTagParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => BiomeParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => ConfiguredCarverParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => ConfiguredFeatureParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => ConfiguredStructureFeatureParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => ConfiguredSurfaceBuilderParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => NoiseSettingsParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => ProcessorListParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => TemplatePoolParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => AdvancementParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => FunctionParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => LootTableParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => PredicateParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => RecipeParser.FindAndParse(files, namespacePath, ns)));
-            runLater.Add((namespacePath, () => StructureParser.FindAndParse(files, namespacePath, ns)));
+            foreach (var parserType in Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && typeof(IParser).IsAssignableFrom(t))) {
+                var parser = (IParser)parserType.GetConstructor(Type.EmptyTypes).Invoke(null);
+                runLater.Add((namespacePath, () => parser.FindAndParse(files, namespacePath, ns)));
+            }
         }
     }
 }

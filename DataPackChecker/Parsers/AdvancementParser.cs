@@ -9,8 +9,8 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
-    static class AdvancementParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    class AdvancementParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "advancements");
             if (!files.DirectoryExists(searchPath)) return;
             foreach (var resource in files.EnumerateFiles(searchPath, true)) {

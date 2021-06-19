@@ -5,8 +5,8 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers {
-    static class RecipeParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    class RecipeParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "recipes");
             if (!files.DirectoryExists(searchPath)) return;
             foreach (var resource in files.EnumerateFiles(searchPath, true)) {

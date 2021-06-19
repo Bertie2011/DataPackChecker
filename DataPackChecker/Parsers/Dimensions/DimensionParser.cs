@@ -5,8 +5,8 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers.Dimensions {
-    static class DimensionParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    class DimensionParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "dimension");
             if (!files.DirectoryExists(searchPath)) return;
             

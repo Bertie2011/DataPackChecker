@@ -5,8 +5,8 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers.WorldGen {
-    static class ProcessorListParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    class ProcessorListParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "worldgen", "processor_list");
             if (!files.DirectoryExists(searchPath)) return;
             foreach (var resource in files.EnumerateFiles(searchPath, true)) {

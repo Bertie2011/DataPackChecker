@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 
 namespace DataPackChecker.Parsers {
-    static public class FunctionParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    public class FunctionParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "functions");
             if (!files.DirectoryExists(searchPath)) return;
             foreach (var resource in files.EnumerateFiles(searchPath, true)) {

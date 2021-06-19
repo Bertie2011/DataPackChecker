@@ -9,8 +9,8 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace DataPackChecker.Parsers {
-    static class LootTableParser {
-        static public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
+    class LootTableParser : IParser {
+        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
             var searchPath = Path.Join(nsPath, "loot_tables");
             if (!files.DirectoryExists(searchPath)) return;
             foreach (var resource in files.EnumerateFiles(searchPath, true)) {
