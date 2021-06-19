@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 
 namespace DataPackChecker.Shared.Data.Resources.Tags {
     public class FunctionTag : Tag {
@@ -12,6 +13,6 @@ namespace DataPackChecker.Shared.Data.Resources.Tags {
         [AutoReference]
         public List<Function> References { get; } = new List<Function>();
 
-        public FunctionTag(string path, string name) : base(path, name) {}
+        public FunctionTag(string path, string name, JsonElement content) : base(path, name, content) {}
     }
 }

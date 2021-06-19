@@ -5,19 +5,10 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers.Tags {
-    class ItemsTagParser : IParser {
-        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
-            var searchPath = Path.Join(nsPath, "tags", "items");
-            if (!files.DirectoryExists(searchPath)) return;
-            foreach (var resource in files.EnumerateFiles(searchPath, true)) {
-                if (!resource.EndsWith(".json")) continue;
-                var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
-                var name = Path.GetFileNameWithoutExtension(resource);
-                var tag = new ItemTag(path, name);
-                using Stream fs = files.OpenRead(resource);
-                tag.Content = JsonDocument.Parse(fs).RootElement;
-                ns.TagData.ItemTags.Add(tag);
-            }
+    class ItemsTagParser : JsonParser {
+        protected override string PathInNamespace => Path.Join("tags", "items");
+        protected override void CreateAndAdd(string path, string name, JsonElement json, Namespace ns) {
+            ns.TagData.ItemTags.Add(new ItemTag(path, name, json));
         }
     }
 }

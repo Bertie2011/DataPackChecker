@@ -21,7 +21,7 @@ namespace DataPackChecker.Shared.Data.Resources.Tags {
         /// </summary>
         public List<TagEntry> Entries { get; } = new List<TagEntry>();
 
-        public Tag(string path, string name) : base(path, name) {}
+        public Tag(string path, string name, JsonElement content) : base(path, name, content) {}
 
         private void UpdateEntries() {
             Entries.Clear();

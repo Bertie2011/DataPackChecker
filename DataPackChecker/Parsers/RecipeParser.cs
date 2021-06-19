@@ -5,19 +5,11 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers {
-    class RecipeParser : IParser {
-        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
-            var searchPath = Path.Join(nsPath, "recipes");
-            if (!files.DirectoryExists(searchPath)) return;
-            foreach (var resource in files.EnumerateFiles(searchPath, true)) {
-                if (!resource.EndsWith(".json")) continue;
-                var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
-                var name = Path.GetFileNameWithoutExtension(resource);
-                var recipe = new Recipe(path, name);
-                using Stream fs = files.OpenRead(resource);
-                recipe.Content = JsonDocument.Parse(fs).RootElement;
-                ns.Recipes.Add(recipe);
-            }
+    class RecipeParser : JsonParser {
+        protected override string PathInNamespace => "recipes";
+
+        protected override void CreateAndAdd(string path, string name, JsonElement json, Namespace ns) {
+            ns.Recipes.Add(new Recipe(path, name, json));
         }
     }
 }

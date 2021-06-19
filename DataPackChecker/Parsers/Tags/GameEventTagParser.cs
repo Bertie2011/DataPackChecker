@@ -5,19 +5,11 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers.Tags {
-    class GameEventTagParser : IParser {
-        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
-            var searchPath = Path.Join(nsPath, "tags", "game_events");
-            if (!files.DirectoryExists(searchPath)) return;
-            foreach (var resource in files.EnumerateFiles(searchPath, true)) {
-                if (!resource.EndsWith(".json")) continue;
-                var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
-                var name = Path.GetFileNameWithoutExtension(resource);
-                var tag = new GameEventTag(path, name);
-                using Stream fs = files.OpenRead(resource);
-                tag.Content = JsonDocument.Parse(fs).RootElement;
-                ns.TagData.GameEventTags.Add(tag);
-            }
+    class GameEventTagParser : JsonParser {
+        protected override string PathInNamespace => Path.Join("tags", "game_events");
+
+        protected override void CreateAndAdd(string path, string name, JsonElement json, Namespace ns) {
+            ns.TagData.GameEventTags.Add(new GameEventTag(path, name, json));
         }
     }
 }

@@ -6,7 +6,8 @@ using System.Text.Json;
 namespace DataPackChecker.Shared.Data.Resources {
     public abstract class JsonResource : Resource {
         virtual public JsonElement Content { get; set; }
-        public JsonResource(string path, string name) : base(path, name) {
+        public JsonResource(string path, string name, JsonElement content) : base(path, name) {
+            Content = content;
         }
     }
 }

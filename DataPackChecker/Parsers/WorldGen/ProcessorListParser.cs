@@ -5,19 +5,11 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers.WorldGen {
-    class ProcessorListParser : IParser {
-        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
-            var searchPath = Path.Join(nsPath, "worldgen", "processor_list");
-            if (!files.DirectoryExists(searchPath)) return;
-            foreach (var resource in files.EnumerateFiles(searchPath, true)) {
-                if (!resource.EndsWith(".json")) continue;
-                var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
-                var name = Path.GetFileNameWithoutExtension(resource);
-                var worldGenElement = new ProcessorList(path, name);
-                using Stream fs = files.OpenRead(resource);
-                worldGenElement.Content = JsonDocument.Parse(fs).RootElement;
-                ns.WorldGenData.ProcessorLists.Add(worldGenElement);
-            }
+    class ProcessorListParser : JsonParser {
+        protected override string PathInNamespace => Path.Join("worldgen", "processor_list");
+
+        protected override void CreateAndAdd(string path, string name, JsonElement json, Namespace ns) {
+            ns.WorldGenData.ProcessorLists.Add(new ProcessorList(path, name, json));
         }
     }
 }

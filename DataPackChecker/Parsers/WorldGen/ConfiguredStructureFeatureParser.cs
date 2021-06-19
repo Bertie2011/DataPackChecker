@@ -5,19 +5,11 @@ using System.IO;
 using System.Text.Json;
 
 namespace DataPackChecker.Parsers.WorldGen {
-    class ConfiguredStructureFeatureParser : IParser {
-        public void FindAndParse(IFileSystem files, string nsPath, Namespace ns) {
-            var searchPath = Path.Join(nsPath, "worldgen", "configured_structure_feature");
-            if (!files.DirectoryExists(searchPath)) return;
-            foreach (var resource in files.EnumerateFiles(searchPath, true)) {
-                if (!resource.EndsWith(".json")) continue;
-                var path = Path.GetDirectoryName(Path.GetRelativePath(searchPath, resource)).Replace('\\', '/');
-                var name = Path.GetFileNameWithoutExtension(resource);
-                var worldGenElement = new ConfiguredStructureFeature(path, name);
-                using Stream fs = files.OpenRead(resource);
-                worldGenElement.Content = JsonDocument.Parse(fs).RootElement;
-                ns.WorldGenData.ConfiguredStructureFeatures.Add(worldGenElement);
-            }
+    class ConfiguredStructureFeatureParser : JsonParser {
+        protected override string PathInNamespace => Path.Join("worldgen", "configured_structure_feature");
+
+        protected override void CreateAndAdd(string path, string name, JsonElement json, Namespace ns) {
+            ns.WorldGenData.ConfiguredStructureFeatures.Add(new ConfiguredStructureFeature(path, name, json));
         }
     }
 }
