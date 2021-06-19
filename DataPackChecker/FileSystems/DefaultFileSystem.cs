@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DataPackChecker.Shared.FileSystems {
+namespace DataPackChecker.FileSystems {
     public class DefaultFileSystem : IFileSystem {
         public string BasePath { get; }
         public DefaultFileSystem(string path) {

@@ -124,14 +124,6 @@
             an entry can also be an object it is not as straight forward.
             </summary>
         </member>
-        <member name="T:DataPackChecker.Shared.FileSystems.IFileSystem">
-            <summary>
-            PATH CONVENTIONS:
-            - Paths are relative to the BasePath
-            - Paths do not start with a slash.
-            - Path separators are equal to <see cref="F:System.IO.Path.DirectorySeparatorChar"/>
-            </summary>
-        </member>
         <member name="M:DataPackChecker.Shared.Output.Error(DataPackChecker.Shared.Data.Namespace,System.String)">
             <summary>
             This method does not provide the creator with enough information, please use a more specific method.<br/><br/>

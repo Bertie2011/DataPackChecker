@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace DataPackChecker.Shared.FileSystems {
+namespace DataPackChecker.FileSystems {
     /// <summary>
     /// PATH CONVENTIONS:
     /// - Paths are relative to the BasePath

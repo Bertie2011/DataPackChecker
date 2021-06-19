@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace DataPackChecker.Shared.FileSystems {
+namespace DataPackChecker.FileSystems {
     public class ZipFileSystem : IFileSystem {
         public string BasePath { get; }
         private ZipArchive Archive { get; }
@@ -41,7 +41,7 @@ namespace DataPackChecker.Shared.FileSystems {
         public IEnumerable<string> EnumerateFiles(string path, bool recurse = false) {
             path = Path.TrimEndingDirectorySeparator(ZipPath(path));
             var pathSlash = path + '/';
-            return Archive.Entries.Where(e => e.FullName.StartsWith(pathSlash) 
+            return Archive.Entries.Where(e => e.FullName.StartsWith(pathSlash)
                     && (recurse || Path.GetDirectoryName(e.FullName) == path))
                 .Select(e => SystemPath(e.FullName));
         }

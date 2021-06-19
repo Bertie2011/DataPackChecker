@@ -1,6 +1,6 @@
-﻿using DataPackChecker.Shared.Data;
+﻿using DataPackChecker.FileSystems;
+using DataPackChecker.Shared.Data;
 using DataPackChecker.Shared.Data.Resources.WorldGen;
-using DataPackChecker.Shared.FileSystems;
 using System;
 using System.Collections.Generic;
 using System.IO;

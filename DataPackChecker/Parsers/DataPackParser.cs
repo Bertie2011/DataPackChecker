@@ -2,16 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.Json;
-using System.Linq;
-using System.Text.RegularExpressions;
-using DataPackChecker.Shared.Data.Resources;
 using DataPackChecker.Parsers.Dimensions;
 using DataPackChecker.Parsers.WorldGen;
 using DataPackChecker.Parsers.Tags;
 using System.Threading;
-using DataPackChecker.Shared.FileSystems;
+using DataPackChecker.FileSystems;
 
 namespace DataPackChecker.Parsers {
     static class DataPackParser {
@@ -31,8 +27,8 @@ namespace DataPackChecker.Parsers {
 
             var mcmeta = ParseMcMeta(files, errors);
             if (errors.Count > 0) return (null, errors);
-            DataPack pack = new DataPack(files, mcmeta);
-            ParseNamespaces(pack, errors);
+            DataPack pack = new DataPack(mcmeta);
+            ParseNamespaces(files, pack, errors);
             if (errors.Count > 0) return (pack, errors);
             pack.RebuildReferences();
             return (pack, errors);
@@ -59,11 +55,11 @@ namespace DataPackChecker.Parsers {
         }
 
         // Root directory
-        private static void ParseNamespaces(DataPack pack, List<Exception> errors) {
+        private static void ParseNamespaces(IFileSystem files, DataPack pack, List<Exception> errors) {
             List<(string Location, Action Action)> actions = new List<(string Location, Action Action)>();
-            foreach (var namespacePath in pack.Files.EnumerateDirectories("data")) {
+            foreach (var namespacePath in files.EnumerateDirectories("data")) {
                 var namespaceObj = new Namespace(Path.GetFileName(namespacePath));
-                ParseResources(pack.Files, namespacePath, namespaceObj, actions);
+                ParseResources(files, namespacePath, namespaceObj, actions);
                 pack.Namespaces.Add(namespaceObj);
             }
 

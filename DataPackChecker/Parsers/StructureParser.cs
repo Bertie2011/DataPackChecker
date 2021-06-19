@@ -1,6 +1,6 @@
-﻿using DataPackChecker.Shared.Data;
+﻿using DataPackChecker.FileSystems;
+using DataPackChecker.Shared.Data;
 using DataPackChecker.Shared.Data.Resources;
-using DataPackChecker.Shared.FileSystems;
 using System.IO;
 
 namespace DataPackChecker.Parsers {

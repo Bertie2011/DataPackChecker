@@ -4,17 +4,14 @@ using System.Linq;
 using DataPackChecker.Shared.Collections;
 using DataPackChecker.Shared.Data.Resources;
 using DataPackChecker.Shared.Data.Resources.Tags;
-using DataPackChecker.Shared.FileSystems;
 
 namespace DataPackChecker.Shared.Data {
     public class DataPack {
         public JsonElement Meta { get; set; }
-        public IFileSystem Files { get; }
         public LookupList<string, Namespace> Namespaces { get; } = new LookupList<string, Namespace>();
 
-        public DataPack(IFileSystem files, JsonElement meta) {
+        public DataPack(JsonElement meta) {
             Meta = meta;
-            Files = files;
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ using System.IO.Compression;
 using System.Text;
 using System.Threading;
 
-namespace DataPackChecker.Shared.FileSystems {
+namespace DataPackChecker.FileSystems {
     public class ZipStream : Stream {
         public ZipStream(string zipFile, string entry) {
             Archive = ZipFile.OpenRead(zipFile);

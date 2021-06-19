@@ -1,6 +1,6 @@
-﻿using DataPackChecker.Shared.Data;
+﻿using DataPackChecker.FileSystems;
+using DataPackChecker.Shared.Data;
 using DataPackChecker.Shared.Data.Resources.Tags;
-using DataPackChecker.Shared.FileSystems;
 using System.IO;
 using System.Text.Json;
 
